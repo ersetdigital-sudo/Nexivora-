@@ -1,27 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { GAMES, type Game } from "@/lib/games";
 import { formatOrderId, rupiah } from "@/lib/format";
 import { CheckoutOverlay, type CheckoutOrder } from "@/components/checkout/CheckoutOverlay";
 
-export function OrderForm() {
-  const [gameSlug, setGameSlug] = useState(GAMES[0].slug);
+interface GameOrderFormProps {
+  initialSlug: string;
+}
+
+export function GameOrderForm({ initialSlug }: GameOrderFormProps) {
+  const [gameSlug] = useState(initialSlug);
   const [userId, setUserId] = useState("");
   const [serverId, setServerId] = useState("");
   const [pickedLabel, setPickedLabel] = useState<string | null>(null);
   const [order, setOrder] = useState<CheckoutOrder | null>(null);
 
   const game: Game = useMemo(() => GAMES.find((g) => g.slug === gameSlug) ?? GAMES[0], [gameSlug]);
-
-  useEffect(() => {
-    const onPick = (e: Event) => {
-      const slug = (e as CustomEvent<string>).detail;
-      setGameSlug(slug);
-    };
-    window.addEventListener("toplixa:pick", onPick);
-    return () => window.removeEventListener("toplixa:pick", onPick);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,19 +43,13 @@ export function OrderForm() {
           <select
             id="gameSelect"
             value={gameSlug}
-            onChange={(e) => {
-              setGameSlug(e.target.value);
-              setPickedLabel(null);
-            }}
-            className="w-full bg-raise hairline rounded-xl px-4 py-3 text-sm outline-none focus:border-gold/60 transition"
+            disabled
+            className="w-full bg-raise hairline rounded-xl px-4 py-3 text-sm outline-none opacity-70 cursor-not-allowed"
           >
-            {GAMES.map((g) => (
-              <option key={g.slug} value={g.slug}>
-                {g.name}
-              </option>
-            ))}
+            <option>{game.name}</option>
           </select>
         </div>
+
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="userId" className="block text-xs uppercase tracking-[.15em] text-white/40 mb-2">
@@ -89,6 +78,7 @@ export function OrderForm() {
             />
           </div>
         </div>
+
         <div>
           <span className="block text-xs uppercase tracking-[.15em] text-white/40 mb-3">Nominal</span>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3" role="radiogroup" aria-label="Pilih nominal">
@@ -114,6 +104,7 @@ export function OrderForm() {
             })}
           </div>
         </div>
+
         <button type="submit" className="btn-gold w-full font-semibold py-3.5 rounded-xl transition">
           Lanjut ke Pembayaran
         </button>

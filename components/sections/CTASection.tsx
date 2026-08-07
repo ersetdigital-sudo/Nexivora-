@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function CTASection() {
   return (
     <section className="sect border-t border-white/5">
@@ -10,9 +12,12 @@ export function CTASection() {
           Siap naik <span className="gold-text">rank</span> malam ini?
         </h2>
         <p className="relative mt-5 text-white/55 font-light">Top up sekarang, lanjut main tanpa jeda.</p>
-        <a href="#topup" className="relative inline-block mt-8 btn-gold font-semibold px-8 py-3.5 rounded-full transition">
+        <Link
+          href="/#games"
+          className="relative inline-block mt-8 btn-gold font-semibold px-8 py-3.5 rounded-full transition"
+        >
           Mulai Top Up
-        </a>
+        </Link>
       </div>
     </section>
   );

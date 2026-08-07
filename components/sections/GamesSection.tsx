@@ -1,7 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import { GAMES } from "@/lib/games";
 import { Reveal } from "@/components/ui/Reveal";
-import { GamePickButton } from "@/components/ui/GamePickButton";
 
 export function GamesSection() {
   return (
@@ -34,10 +34,12 @@ export function GamesSection() {
               </div>
               <h3 className="mt-5 font-display text-base md:text-lg font-semibold">{game.name}</h3>
               <p className="text-xs md:text-sm text-white/45 mt-1">{game.range}</p>
-              <GamePickButton
-                slug={game.slug}
-                className="pick mt-5 text-left text-xs md:text-sm font-semibold text-gold-bright hover:text-white transition"
-              />
+              <Link
+                href={`/top-up/${game.slug}`}
+                className="mt-5 text-xs md:text-sm font-semibold text-gold-bright hover:text-white transition"
+              >
+                Top Up →
+              </Link>
             </Reveal>
           ))}
 

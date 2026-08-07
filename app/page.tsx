@@ -1,7 +1,6 @@
 import { Header } from "@/components/sections/Header";
 import { Hero } from "@/components/sections/Hero";
 import { GamesSection } from "@/components/sections/GamesSection";
-import { TopUpSection } from "@/components/sections/TopUpSection";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { FAQSection } from "@/components/sections/FAQSection";
 import { CTASection } from "@/components/sections/CTASection";
@@ -15,7 +14,6 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <GamesSection />
-        <TopUpSection />
         <HowItWorks />
         <FAQSection />
         <CTASection />
