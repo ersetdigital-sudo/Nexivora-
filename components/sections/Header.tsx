@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { LogoMark } from "@/components/ui/LogoMark";
 
 const NAV = [
@@ -12,6 +14,8 @@ const NAV = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -20,29 +24,37 @@ export function Header() {
     };
   }, [open]);
 
+  const navHref = (hash: string) => (isHome ? hash : `/${hash}`);
+
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/5">
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2" aria-label="Toplixa — kembali ke atas">
+        <Link href="/" className="flex items-center gap-2" aria-label="Toplixa — kembali ke beranda">
           <LogoMark className="w-9 h-9 shrink-0" />
           <span className="font-display font-semibold tracking-tight text-lg">Toplixa</span>
-        </a>
+        </Link>
 
         <nav className="hidden sm:flex items-center gap-5 md:gap-8 text-[13px] md:text-sm text-white/70">
+          <Link
+            href="/"
+            className={`transition ${isHome ? "text-white" : "hover:text-white"}`}
+          >
+            Home
+          </Link>
           {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="hover:text-white transition">
+            <Link key={item.href} href={navHref(item.href)} className="hover:text-white transition">
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href="#topup"
+          <Link
+            href={navHref("#topup")}
             className="btn-gold text-[12px] sm:text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-full transition whitespace-nowrap"
           >
             Top Up
-          </a>
+          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -66,15 +78,22 @@ export function Header() {
           className="sm:hidden border-t border-white/5 bg-black/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-1"
           aria-label="Menu mobile"
         >
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className={`py-3 text-sm transition rounded-lg px-2 ${isHome ? "text-white" : "text-white/70 hover:text-white"}`}
+          >
+            Home
+          </Link>
           {NAV.map((item) => (
-            <a
+            <Link
               key={item.href}
-              href={item.href}
+              href={navHref(item.href)}
               onClick={() => setOpen(false)}
               className="py-3 text-sm text-white/70 hover:text-white transition rounded-lg px-2"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       )}

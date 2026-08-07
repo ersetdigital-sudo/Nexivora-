@@ -6,6 +6,7 @@ import { GAMES, getGame } from "@/lib/games";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { GameOrderForm } from "@/components/sections/GameOrderForm";
+import { Breadcrumb, breadcrumbJsonLd } from "@/components/ui/Breadcrumb";
 import { site } from "@/lib/site";
 
 interface PageProps {
@@ -41,6 +42,12 @@ export default async function TopUpPage({ params }: PageProps) {
   const game = getGame(slug);
   if (!game) notFound();
 
+  const crumbs = [
+    { label: "Home", href: "/" },
+    { label: "Top Up", href: "/#games" },
+    { label: game.name },
+  ];
+
   return (
     <>
       <Header />
@@ -49,6 +56,7 @@ export default async function TopUpPage({ params }: PageProps) {
           <div className="glow" style={{ width: 420, height: 420, background: "#d4af6a", top: "10%", left: -140, opacity: 0.18 }} />
           <div className="relative max-w-5xl mx-auto px-5 grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-start">
             <div>
+              <Breadcrumb items={crumbs} className="mb-4" />
               <p className="text-[11px] tracking-[.25em] uppercase text-white/40">Top Up</p>
               <h1 className="mt-3 font-display h-sec font-semibold">
                 {game.name}
@@ -109,6 +117,10 @@ export default async function TopUpPage({ params }: PageProps) {
         </section>
       </main>
       <Footer />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(crumbs)) }}
+      />
     </>
   );
 }
