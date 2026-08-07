@@ -84,7 +84,7 @@ export function CheckoutOverlay({ order, onClose }: CheckoutOverlayProps) {
     }));
     setConfetti(pieces);
     window.setTimeout(() => setConfetti([]), 3400);
-    window.setTimeout(() => setDeliverMsg("Item berhasil masuk ke akunmu ✓"), 3200);
+    window.setTimeout(() => setDeliverMsg("Item sedang diproses. Cek game dalam beberapa detik."), 3200);
   };
 
   const handleRetry = () => {
