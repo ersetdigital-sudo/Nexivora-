@@ -1,6 +1,12 @@
+import Link from "next/link";
 import { LogoMark } from "@/components/ui/LogoMark";
+import type { DbGameWithNominals } from "@/lib/db";
 
-export function Footer() {
+interface FooterProps {
+  games: DbGameWithNominals[];
+}
+
+export function Footer({ games }: FooterProps) {
   return (
     <footer className="border-t border-white/10 py-14">
       <div className="max-w-6xl mx-auto px-5">
@@ -25,11 +31,13 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-bold">Game</h3>
             <ul className="mt-4 flex flex-col gap-2.5 text-sm text-[#8A93A8]">
-              <li>Top up Mobile Legends</li>
-              <li>Top up Free Fire</li>
-              <li>Top up PUBG Mobile</li>
-              <li>Top up Call of Duty Mobile</li>
-              <li>Top up Magic Chess: Go Go</li>
+              {games.map((game) => (
+                <li key={game.slug}>
+                  <Link href={`/top-up/${game.slug}`} className="hover:text-white transition-colors">
+                    Top up {game.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>

@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
+import { getActiveGames } from "@/lib/db";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const games = await getActiveGames();
+
   return (
     <>
       <Header />
@@ -21,7 +24,7 @@ export default function NotFound() {
           </Link>
         </div>
       </main>
-      <Footer />
+      <Footer games={games} />
     </>
   );
 }
