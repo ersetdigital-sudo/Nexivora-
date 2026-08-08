@@ -6,8 +6,8 @@ import Link from "next/link";
 import { LogoMark } from "@/components/ui/LogoMark";
 
 const NAV = [
-  { href: "#games", label: "Game" },
-  { href: "#topup", label: "Top Up" },
+  { href: "#games", label: "Pilih Game" },
+  { href: "#topup", label: "Form Order" },
   { href: "#cara", label: "Cara Order" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -28,73 +28,59 @@ export function Header() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/5">
-      <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="Nexivora — kembali ke beranda">
+      <div className="max-w-6xl mx-auto px-5 h-[72px] flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="Nexivora — kembali ke atas">
           <LogoMark className="w-9 h-9 shrink-0" />
-          <span className="font-display font-semibold tracking-tight text-lg">Nexivora</span>
+          <span className="font-display text-[1.15rem] font-extrabold tracking-tight">Nexivora</span>
         </Link>
 
-        <nav className="hidden sm:flex items-center gap-5 md:gap-8 text-[13px] md:text-sm text-white/70">
-          <Link
-            href="/"
-            className={`transition ${isHome ? "text-white" : "hover:text-white"}`}
-          >
-            Home
-          </Link>
+        <nav className="hidden lg:flex items-center gap-8 text-sm text-[#8A93A8]">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
           {NAV.map((item) => (
-            <Link key={item.href} href={navHref(item.href)} className="hover:text-white transition">
+            <Link key={item.href} href={navHref(item.href)} className="hover:text-white transition-colors">
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <Link
             href={navHref("#topup")}
-            className="btn-gold text-[12px] sm:text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-full transition whitespace-nowrap"
+            className="btn-gold hidden sm:inline-flex items-center rounded-xl px-4 py-2.5 text-sm font-semibold"
           >
-            Top Up
+            Top Up Sekarang
           </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            aria-label={open ? "Tutup menu" : "Buka menu"}
-            className="sm:hidden w-10 h-10 -mr-2 rounded-full hairline flex items-center justify-center text-white/70"
+            aria-label={open ? "Tutup menu" : "Buka menu navigasi"}
+            className="lg:hidden rounded-xl p-2.5 border border-white/10 transition hover:border-white/30 hover:bg-white/[.04]"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              {open ? (
-                <path d="M6 6l12 12M18 6L6 18" />
-              ) : (
-                <path d="M4 7h16M4 12h16M4 17h10" />
-              )}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M4 7h16M4 12h16M4 17h16" />
             </svg>
           </button>
         </div>
       </div>
 
       {open && (
-        <nav
-          className="sm:hidden border-t border-white/5 bg-black/90 backdrop-blur-xl px-5 py-4 flex flex-col gap-1"
-          aria-label="Menu mobile"
-        >
-          <Link
-            href="/"
-            onClick={() => setOpen(false)}
-            className={`py-3 text-sm transition rounded-lg px-2 ${isHome ? "text-white" : "text-white/70 hover:text-white"}`}
-          >
-            Home
-          </Link>
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={navHref(item.href)}
-              onClick={() => setOpen(false)}
-              className="py-3 text-sm text-white/70 hover:text-white transition rounded-lg px-2"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav className="lg:hidden border-t border-white/10 bg-[rgba(7,9,15,.95)] backdrop-blur px-5 py-4">
+          <ul className="flex flex-col gap-3 text-sm">
+            <li><Link href="/" onClick={() => setOpen(false)} className="block py-1.5">Home</Link></li>
+            {NAV.map((item) => (
+              <li key={item.href}>
+                <Link href={navHref(item.href)} onClick={() => setOpen(false)} className="block py-1.5">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href={navHref("#topup")} onClick={() => setOpen(false)} className="btn-gold mt-2 inline-flex rounded-xl px-4 py-2.5 font-semibold">
+                Top Up Sekarang
+              </Link>
+            </li>
+          </ul>
         </nav>
       )}
     </header>

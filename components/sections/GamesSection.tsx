@@ -9,58 +9,46 @@ interface GamesSectionProps {
 
 export function GamesSection({ games }: GamesSectionProps) {
   return (
-    <section id="games" className="relative sect border-t border-white/5">
+    <section id="games" className="relative sect border-t border-white/10">
       <div className="max-w-6xl mx-auto px-5">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
-          <div>
-            <p className="text-[11px] tracking-[.25em] uppercase text-white/40">Katalog</p>
-            <h2 className="mt-3 font-display h-sec font-semibold">Lima game, satu tempat.</h2>
-          </div>
-          <p className="text-white/50 max-w-sm text-sm font-light">
-            Semua produk resmi dan legal. Cukup masukkan User ID, pilih nominal, bayar — selesai.
-          </p>
-        </div>
+        <Reveal className="max-w-2xl">
+          <p className="font-mono text-xs uppercase tracking-[.2em] text-[#7C5CFF]">01 — Katalog</p>
+          <h2 className="mt-3 font-display text-3xl sm:text-5xl font-extrabold">Pilih game kamu</h2>
+          <p className="mt-4 text-[#8A93A8]">Lima game yang kami layani saat ini. Tekan tombol Top Up dan game akan langsung terpilih di form order.</p>
+        </Reveal>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {games.map((game, i) => (
-            <Reveal as="article" key={game.slug} delay={i * 60} className="card p-4 sm:p-5 md:p-6 flex flex-col">
-              <div className="logo-wrap">
-                <Image
-                  src={game.icon_url}
-                  alt={`Logo ${game.name}`}
-                  width={game.icon_width}
-                  height={game.icon_height}
-                  className="w-auto h-auto"
-                  sizes="(max-width: 640px) 86vw, 78%"
-                  priority={i < 2}
-                />
+            <Reveal as="article" key={game.slug} delay={i * 60} className="card p-5 flex flex-col">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex h-[78px] w-[126px] shrink-0 items-center justify-center rounded-2xl border border-white/10 px-3 py-2.5 bg-[#0B0E17]">
+                  <Image
+                    src={game.icon_url}
+                    alt={`Logo ${game.name}`}
+                    width={game.icon_width}
+                    height={game.icon_height}
+                    className="w-auto h-auto"
+                    sizes="(max-width: 640px) 86vw, 78%"
+                    priority={i < 2}
+                  />
+                </div>
+                <span className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] text-[#8A93A8]">
+                  {game.hide_server_id ? "UC" : "Diamond"}
+                </span>
               </div>
-              <h3 className="mt-5 font-display text-base md:text-lg font-semibold">{game.name}</h3>
-              <p className="text-xs md:text-sm text-white/45 mt-1">{game.range_label}</p>
+              <h3 className="mt-5 text-lg font-bold">{game.name}</h3>
+              <p className="mt-1 text-sm text-[#8A93A8]">{game.range_label}</p>
               <Link
                 href={`/top-up/${game.slug}`}
-                className="mt-5 text-xs md:text-sm font-semibold text-gold-bright hover:text-white transition"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 btn-gold font-semibold text-sm"
               >
-                Top Up →
+                Top Up
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
               </Link>
             </Reveal>
           ))}
-
-          <Reveal
-            as="article"
-            delay={5 * 60}
-            className="card p-4 sm:p-5 md:p-6 flex flex-col items-start justify-center"
-            style={{ background: "linear-gradient(160deg,#101011,#0a0a0b)" }}
-          >
-            <p className="font-display text-base md:text-lg font-semibold text-white/80">Game lain?</p>
-            <p className="text-xs md:text-sm text-white/45 mt-2">
-              Kami menambah katalog tiap bulan. Kirim request game favoritmu.
-            </p>
-            <a href="#faq" className="mt-5 text-xs md:text-sm font-semibold text-gold-bright hover:text-white transition">
-              Request game →
-            </a>
-          </Reveal>
         </div>
+        <p className="mt-6 text-xs text-[#8A93A8]">*Range nominal bersifat placeholder untuk tahap desain. TODO: sinkronkan dengan harga produk asli.</p>
       </div>
     </section>
   );

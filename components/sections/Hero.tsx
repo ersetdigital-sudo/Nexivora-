@@ -8,53 +8,77 @@ interface HeroProps {
 export function Hero({ games }: HeroProps) {
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 md:pt-48 md:pb-32">
-      <div className="glow" style={{ width: 520, height: 520, background: "#7C5CFF", top: -180, left: "50%", transform: "translateX(-50%)" }} />
-      <div className="glow" style={{ width: 380, height: 380, background: "#3a2c12", bottom: -160, right: -80 }} />
-      <div className="relative max-w-6xl mx-auto px-5 text-center">
-        <span className="inline-flex items-center gap-2 text-[11px] tracking-[.2em] uppercase text-white/60 hairline rounded-full px-4 py-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          Server aktif 24 jam
-        </span>
+      <div className="absolute inset-0 grid-bg [mask-image:radial-gradient(ellipse_at_50%_0%,black,transparent_72%)]" aria-hidden="true" />
+      <div className="glow" style={{ width: 520, height: 520, background: "#7C5CFF", top: -180, left: -120 }} />
+      <div className="glow" style={{ width: 420, height: 420, background: "#22D3EE", top: -80, right: -140, opacity: 0.32 }} />
 
-        <h1 className="mt-7 font-display h-hero font-semibold">
-          Isi data, <br className="hidden sm:block" />
-          <span className="gold-text">langsung masuk.</span>
-        </h1>
+      <div className="relative max-w-6xl mx-auto px-5">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div className="lg:col-span-7">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#0E121C] px-3.5 py-1.5 text-xs text-[#8A93A8]">
+              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#34D399]" />
+              Sistem otomatis aktif — layanan 24 jam
+            </span>
 
-        <p className="mt-5 text-white/60 lead max-w-xl mx-auto font-light">
-          Tidak perlu password atau kode OTP. Cukup User ID (dan Server ID untuk game tertentu).
-        </p>
+            <h1 className="mt-6 font-display text-[2.5rem] sm:text-6xl lg:text-[4.4rem] font-extrabold leading-[1.06]">
+              Top up game <span className="gold-text">cepat, aman,</span> dan otomatis.
+            </h1>
 
-        <ul className="mt-8 space-y-3 text-sm text-white/60 max-w-sm mx-auto text-left">
-          <li className="flex gap-3">
-            <span className="text-gold shrink-0">✓</span> Proses otomatis 24 jam nonstop
+            <p className="mt-6 max-w-xl text-[1.05rem] leading-relaxed text-[#8A93A8]">
+              Nexivora memproses top up Mobile Legends, Free Fire, PUBG Mobile, Call of Duty Mobile,
+              dan Magic Chess: Go Go secara otomatis. Pembayaran lengkap, alur singkat, dan diamond
+              masuk tanpa perlu menunggu operator.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#topup" className="btn-gold inline-flex items-center gap-2 rounded-xl px-6 py-3.5 font-semibold">
+                Top Up Sekarang
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+              <a href="#games" className="inline-flex items-center rounded-xl px-6 py-3.5 font-semibold border border-white/10 transition hover:border-white/30 hover:bg-white/[.04]">
+                Lihat Game
+              </a>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 grid grid-cols-2 gap-3.5">
+            <div className="card col-span-2 p-5">
+              <p className="text-xs uppercase tracking-widest text-[#8A93A8]">Total transaksi diproses</p>
+              <p className="font-mono mt-2 text-4xl font-bold text-[#F4F6FB]">128.400<span className="text-[#7C5CFF]">+</span></p>
+              <p className="mt-1 text-xs text-[#8A93A8]">*angka placeholder — ganti data asli sebelum go-live</p>
+            </div>
+            <div className="card p-5">
+              <p className="text-xs uppercase tracking-widest text-[#8A93A8]">Rata-rata proses</p>
+              <p className="font-mono mt-2 text-3xl font-bold text-[#F4F6FB]">±12<span className="text-base font-medium text-[#8A93A8]">detik</span></p>
+            </div>
+            <div className="card p-5">
+              <p className="text-xs uppercase tracking-widest text-[#8A93A8]">Status server</p>
+              <p className="mt-2 flex items-center gap-2 text-lg font-bold text-[#F4F6FB]">
+                <span className="pulse-dot h-2 w-2 rounded-full bg-[#34D399]" /> Aktif 24 Jam
+              </p>
+              <p className="mt-1 text-xs text-[#8A93A8]">Tanpa jam tutup</p>
+            </div>
+          </div>
+        </div>
+
+        <ul className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <li className="card p-5">
+            <h2 className="text-base font-bold">Proses Otomatis</h2>
+            <p className="mt-1.5 text-sm text-[#8A93A8]">Pesanan diteruskan ke sistem segera setelah pembayaran terkonfirmasi.</p>
           </li>
-          <li className="flex gap-3">
-            <span className="text-gold shrink-0">✓</span> QRIS, e-wallet, VA, dan minimarket
+          <li className="card p-5">
+            <h2 className="text-base font-bold">Pembayaran Lengkap</h2>
+            <p className="mt-1.5 text-sm text-[#8A93A8]">QRIS, e-wallet, virtual account, hingga gerai retail.</p>
           </li>
-          <li className="flex gap-3">
-            <span className="text-gold shrink-0">✓</span> Garansi uang kembali bila gagal
+          <li className="card p-5">
+            <h2 className="text-base font-bold">Aman &amp; Terpercaya</h2>
+            <p className="mt-1.5 text-sm text-[#8A93A8]">Tanpa login akun game. Cukup User ID dan Zone ID bila diperlukan.</p>
+          </li>
+          <li className="card p-5">
+            <h2 className="text-base font-bold">Online 24 Jam</h2>
+            <p className="mt-1.5 text-sm text-[#8A93A8]">Top up kapan pun, termasuk akhir pekan dan hari libur.</p>
           </li>
         </ul>
-
-        <div className="mt-9 relative">
-          <GamePickForm games={games} />
-        </div>
-
-        <div className="mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-          <div>
-            <div className="font-display stat-n gold-text font-semibold">1.2 Jt+</div>
-            <div className="text-xs text-white/45 mt-1">Transaksi sukses</div>
-          </div>
-          <div>
-            <div className="font-display stat-n gold-text font-semibold">&lt; 10 dtk</div>
-            <div className="text-xs text-white/45 mt-1">Rata-rata proses</div>
-          </div>
-          <div>
-            <div className="font-display stat-n gold-text font-semibold">4.9/5</div>
-            <div className="text-xs text-white/45 mt-1">Rating pengguna</div>
-          </div>
-        </div>
       </div>
     </section>
   );
