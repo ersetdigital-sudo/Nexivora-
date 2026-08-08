@@ -17,36 +17,82 @@ export default function AdminLoginPage() {
     setError("");
     setLoading(true);
 
-    console.log("[LOGIN] Submit clicked", { email });
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
+      setError("Email dan password harus diisi.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const supabase = createSupabaseClient();
-      console.log("[LOGIN] Supabase client created");
 
-      console.log("[LOGIN] Calling signInWithPassword...");
-      const result = await Promise.race([
-        supabase.auth.signInWithPassword({ email, password }),
-        new Promise<{ error: Error }>((_, reject) =>
-          setTimeout(() => reject(new Error("Koneksi timeout. Periksa koneksi internet.")), 15000)
-        ),
-      ]);
-
-      console.log("[LOGIN] signInWithPassword result:", JSON.stringify(result));
-
-      const { error: authError } = result;
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email: trimmedEmail,
+        password: trimmedPassword,
+      });
 
       if (authError) {
-        console.log("[LOGIN] Auth error:", authError.message);
-        setError(authError.message);
+        console.error("[LOGIN] Auth error:", authError.message);
+        if (authError.message.includes("Invalid login credentials")) {
+          setError("Email atau password salah.");
+        } else if (authError.message.includes("Email not confirmed")) {
+          setError("Email belum dikonfirmasi. Cek inbox atau hubungi admin.");
+        } else {
+          setError(authError.message);
+        }
         setLoading(false);
         return;
       }
 
-      console.log("[LOGIN] Success, redirecting to /admin...");
+      if (!data.session) {
+        setError("Login gagal. Tidak ada session yang dibuat.");
+        setLoading(false);
+        return;
+      }
+
+      console.log("[LOGIN] Success, session created. Redirecting...");
       window.location.href = "/admin";
     } catch (err: unknown) {
-      console.log("[LOGIN] Catch error:", err);
-      setError(err instanceof Error ? err.message : "Terjadi kesalahan. Coba lagi.");
+      console.error("[LOGIN] Unexpected error:", err);
+      if (err instanceof Error) {
+        if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+          setError("Koneksi gagal. Periksa internet dan coba lagi.");
+        } else if (err.message.includes("timeout")) {
+          setError("Koneksi timeout. Coba lagi dalam beberapa saat.");
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError("Terjadi kesalahan tak dikenal. Coba lagi.");
+      }
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const supabase = createSupabaseClient();
+      const { error: authError } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/admin`,
+        },
+      });
+
+      if (authError) {
+        console.error("[LOGIN] Google OAuth error:", authError.message);
+        setError("Google login gagal. Pastikan provider Google sudah diaktifkan di Supabase.");
+        setLoading(false);
+      }
+    } catch (err: unknown) {
+      console.error("[LOGIN] Google login error:", err);
+      setError("Google login gagal. Coba lagi.");
       setLoading(false);
     }
   };
@@ -191,7 +237,9 @@ export default function AdminLoginPage() {
               <div className="pt-2">
                 <button
                   type="button"
-                  className="w-full flex items-center justify-center gap-3 bg-white/[0.04] border border-white/[0.08] rounded-xl py-3 text-sm text-white/60 hover:bg-white/[0.08] hover:text-white/80 transition-all duration-200"
+                  onClick={handleGoogleLogin}
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-3 bg-white/[0.04] border border-white/[0.08] rounded-xl py-3 text-sm text-white/60 hover:bg-white/[0.08] hover:text-white/80 transition-all duration-200 disabled:opacity-50"
                 >
                   <svg width="18" height="18" viewBox="0 0 24 24">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
