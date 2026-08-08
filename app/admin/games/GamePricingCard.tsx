@@ -22,37 +22,89 @@ interface GameCardProps {
   nominals: PricingItem[];
 }
 
+function formatRupiah(value: number): string {
+  return "Rp " + value.toLocaleString("id-ID");
+}
+
+function parseRupiahInput(input: string): number {
+  const cleaned = input.replace(/[^0-9]/g, "");
+  return parseInt(cleaned, 10) || 0;
+}
+
+function RupiahInput({
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+  placeholder?: string;
+  className?: string;
+}) {
+  const [display, setDisplay] = useState(value > 0 ? formatRupiah(value) : "");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = parseRupiahInput(e.target.value);
+    setDisplay(raw > 0 ? formatRupiah(raw) : "");
+    onChange(raw);
+  };
+
+  const handleBlur = () => {
+    if (value > 0) {
+      setDisplay(formatRupiah(value));
+    }
+  };
+
+  const handleFocus = () => {
+    if (value > 0) {
+      setDisplay(String(value));
+    }
+  };
+
+  return (
+    <input
+      inputMode="numeric"
+      value={display}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      placeholder={placeholder || "Rp 0"}
+      className={className}
+    />
+  );
+}
+
 export function GamePricingCard({ game, nominals }: GameCardProps) {
   const [items, setItems] = useState(nominals);
   const [isActive, setIsActive] = useState(game.is_active);
   const [newLabel, setNewLabel] = useState("");
-  const [newPrice, setNewPrice] = useState("");
+  const [newPrice, setNewPrice] = useState(0);
   const [editing, setEditing] = useState<string | null>(null);
   const [editLabel, setEditLabel] = useState("");
-  const [editPrice, setEditPrice] = useState("");
+  const [editPrice, setEditPrice] = useState(0);
   const [loading, setLoading] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<PricingItem | null>(null);
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     const label = newLabel.trim();
-    const price = parseInt(newPrice, 10);
 
     if (!label) {
       showToast("error", "Label nominal tidak boleh kosong.");
       return;
     }
-    if (!price || price <= 0) {
-      showToast("error", "Harga harus angka lebih dari 0.");
+    if (!newPrice || newPrice <= 0) {
+      showToast("error", "Harga harus lebih dari 0.");
       return;
     }
 
     setLoading(true);
     try {
-      await addPricing(game.id, label, price);
-      setItems([...items, { id: "temp-" + Date.now(), nominal_label: label, price }]);
+      await addPricing(game.id, label, newPrice);
+      setItems([...items, { id: "temp-" + Date.now(), nominal_label: label, price: newPrice }]);
       setNewLabel("");
-      setNewPrice("");
+      setNewPrice(0);
       showToast("success", "Nominal berhasil ditambahkan.");
     } catch (e: unknown) {
       showToast("error", "Gagal menambah nominal: " + String(e));
@@ -62,21 +114,20 @@ export function GamePricingCard({ game, nominals }: GameCardProps) {
 
   const handleUpdate = async (id: string) => {
     const label = editLabel.trim();
-    const price = parseInt(editPrice, 10);
 
     if (!label) {
       showToast("error", "Label nominal tidak boleh kosong.");
       return;
     }
-    if (!price || price <= 0) {
-      showToast("error", "Harga harus angka lebih dari 0.");
+    if (!editPrice || editPrice <= 0) {
+      showToast("error", "Harga harus lebih dari 0.");
       return;
     }
 
     setLoading(true);
     try {
-      await updatePricing(id, label, price);
-      setItems(items.map((i) => (i.id === id ? { ...i, nominal_label: label, price } : i)));
+      await updatePricing(id, label, editPrice);
+      setItems(items.map((i) => (i.id === id ? { ...i, nominal_label: label, price: editPrice } : i)));
       setEditing(null);
       showToast("success", "Harga berhasil disimpan.");
     } catch (e: unknown) {
@@ -109,6 +160,8 @@ export function GamePricingCard({ game, nominals }: GameCardProps) {
     }
   };
 
+  const inputClass = "bg-raise border border-white/[0.06] rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-gold/40 transition";
+
   return (
     <>
       <div className="hairline rounded-2xl bg-panel overflow-hidden">
@@ -131,19 +184,18 @@ export function GamePricingCard({ game, nominals }: GameCardProps) {
             <p className="text-xs text-white/25 py-6 text-center">Belum ada nominal</p>
           )}
           {items.map((item) => (
-            <div key={item.id} className="flex items-center gap-3 px-5 py-3">
+            <div key={item.id} className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3">
               {editing === item.id ? (
                 <>
                   <input
                     value={editLabel}
                     onChange={(e) => setEditLabel(e.target.value)}
-                    className="flex-1 min-w-0 bg-raise border border-white/[0.06] rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-gold/40 transition"
+                    className={`flex-1 min-w-0 ${inputClass}`}
                   />
-                  <input
-                    type="number"
+                  <RupiahInput
                     value={editPrice}
-                    onChange={(e) => setEditPrice(e.target.value)}
-                    className="w-28 bg-raise border border-white/[0.06] rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-gold/40 transition"
+                    onChange={setEditPrice}
+                    className={`w-24 sm:w-28 ${inputClass}`}
                   />
                   <button
                     onClick={() => handleUpdate(item.id)}
@@ -166,13 +218,13 @@ export function GamePricingCard({ game, nominals }: GameCardProps) {
                 <>
                   <span className="flex-1 min-w-0 text-sm text-white/70 truncate">{item.nominal_label}</span>
                   <span className="shrink-0 text-sm text-white/50 font-mono tabular-nums">
-                    Rp {item.price.toLocaleString("id-ID")}
+                    {formatRupiah(item.price)}
                   </span>
                   <button
                     onClick={() => {
                       setEditing(item.id);
                       setEditLabel(item.nominal_label);
-                      setEditPrice(String(item.price));
+                      setEditPrice(item.price);
                     }}
                     disabled={loading}
                     className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-white/[0.04] text-white/30 hover:text-gold hover:bg-gold/10 transition disabled:opacity-50"
@@ -201,16 +253,13 @@ export function GamePricingCard({ game, nominals }: GameCardProps) {
             onChange={(e) => setNewLabel(e.target.value)}
             placeholder="Label (misal: 60 UC)"
             required
-            className="flex-1 min-w-0 bg-raise border border-white/[0.06] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-gold/40 transition"
+            className={`flex-1 min-w-0 ${inputClass}`}
           />
-          <input
-            type="number"
+          <RupiahInput
             value={newPrice}
-            onChange={(e) => setNewPrice(e.target.value)}
+            onChange={setNewPrice}
             placeholder="Harga"
-            required
-            min="0"
-            className="w-28 bg-raise border border-white/[0.06] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-gold/40 transition"
+            className={`w-24 sm:w-28 ${inputClass}`}
           />
           <button
             type="submit"
