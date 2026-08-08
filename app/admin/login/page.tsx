@@ -34,124 +34,237 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-ink flex items-center justify-center px-5 relative overflow-hidden">
-      {/* Slanted background shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="min-h-screen bg-[#0a0a0b] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background slanted image panel */}
+      <div className="absolute inset-0 hidden lg:block">
         <div
-          className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] rounded-full opacity-[0.03]"
-          style={{ background: "radial-gradient(circle, #d4af6a 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute -bottom-1/3 -left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.04]"
-          style={{ background: "radial-gradient(circle, #d4af6a 0%, transparent 70%)" }}
-        />
-        {/* Slanted line accents */}
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div
-            className="absolute top-[20%] left-[-10%] w-[120%] h-px opacity-[0.06]"
-            style={{ background: "linear-gradient(90deg, transparent, #d4af6a, transparent)", transform: "rotate(-12deg)" }}
-          />
-          <div
-            className="absolute top-[80%] left-[-10%] w-[120%] h-px opacity-[0.06]"
-            style={{ background: "linear-gradient(90deg, transparent, #d4af6a, transparent)", transform: "rotate(-12deg)" }}
-          />
+          className="absolute inset-0"
+          style={{
+            clipPath: "polygon(0 0, 55% 0, 48% 100%, 0 100%)",
+          }}
+        >
+          {/* Gradient overlay on image area */}
+          <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-[#0a0a0b] to-[#0a0a0b]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-transparent to-[#0a0a0b]/80" />
+
+          {/* Decorative elements inside the slanted panel */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-full h-full">
+              {/* Grid pattern */}
+              <div
+                className="absolute inset-0 opacity-[0.03]"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(212,175,106,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,106,0.3) 1px, transparent 1px)`,
+                  backgroundSize: "60px 60px",
+                }}
+              />
+              {/* Floating glow */}
+              <div
+                className="absolute top-1/4 left-1/3 w-96 h-96 rounded-full blur-3xl opacity-10"
+                style={{ background: "#d4af6a" }}
+              />
+              <div
+                className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-5"
+                style={{ background: "#d4af6a" }}
+              />
+
+              {/* Brand text overlay */}
+              <div className="absolute bottom-16 left-16 max-w-md">
+                <p className="text-[11px] uppercase tracking-[.3em] text-gold/40 mb-3">Admin Panel</p>
+                <h2 className="font-display text-4xl font-bold text-white/90 leading-tight">
+                  Kelola <span className="gold-text">Toplixa</span>
+                  <br />
+                  Dengan Mudah
+                </h2>
+                <p className="mt-4 text-sm text-white/30 leading-relaxed">
+                  kelola game, harga, dan pembayaran dalam satu panel terintegrasi.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+        {/* Right side dark fill */}
+        <div
+          className="absolute inset-0 bg-[#0a0a0b]"
+          style={{
+            clipPath: "polygon(55% 0, 100% 0, 100% 100%, 48% 100%)",
+          }}
+        />
       </div>
 
-      <div className="w-full max-w-md relative z-10">
-        {/* Logo & Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gold/10 border border-gold/20 mb-5">
-            <LogoMark className="w-8 h-8" />
-          </div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight">
-            Admin <span className="gold-text">Toplixa</span>
-          </h1>
-          <p className="mt-2 text-sm text-white/40">Masuk untuk mengelola panel admin</p>
-        </div>
-
-        {/* Login Card */}
-        <div className="relative">
-          {/* Card glow */}
-          <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-gold/10 via-transparent to-transparent opacity-50" />
-
-          <form
-            onSubmit={handleSubmit}
-            className="relative rounded-2xl border border-white/[0.06] bg-panel/80 backdrop-blur-xl p-8 space-y-5"
+      {/* Main card */}
+      <div className="relative w-full max-w-[1050px] min-h-[700px] rounded-[2.5rem] border border-white/[0.06] bg-[#111113]/90 backdrop-blur-sm shadow-2xl overflow-hidden z-10 flex">
+        {/* Left image panel (desktop) */}
+        <div className="hidden lg:flex w-[56%] relative overflow-hidden rounded-l-[2.5rem]">
+          <div
+            className="absolute inset-0"
+            style={{
+              clipPath: "polygon(0 0, 100% 0, 88% 100%, 0% 100%)",
+            }}
           >
-            {error && (
-              <div className="flex items-center gap-3 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3">
-                <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-red-400" />
-                {error}
+            <div className="absolute inset-0 bg-gradient-to-br from-gold/8 via-[#0a0a0b] to-[#0a0a0b]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-transparent to-[#0a0a0b]/60" />
+
+            {/* Decorative content */}
+            <div className="absolute inset-0 flex flex-col justify-between p-10">
+              {/* Nav */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <LogoMark className="w-6 h-6" />
+                  <span className="font-display font-semibold text-white/80 text-sm">Toplixa</span>
+                </div>
+                <div className="flex gap-6 text-[11px] uppercase tracking-[.15em] text-white/30">
+                  <span className="text-gold/60">Admin</span>
+                  <span>Panel</span>
+                </div>
               </div>
-            )}
 
-            <div className="space-y-2">
-              <label
-                htmlFor="email"
-                className="block text-xs font-medium uppercase tracking-[.15em] text-white/40"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@toplixa.com"
-                required
-                className="w-full bg-raise/50 border border-white/[0.06] rounded-xl px-4 py-3.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-gold/40 focus:bg-raise transition-all duration-200"
-              />
+              {/* Center content */}
+              <div className="flex-1 flex items-center">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[.3em] text-gold/40 mb-3">Dashboard</p>
+                  <h2 className="font-display text-4xl font-bold text-white/90 leading-tight">
+                    Kelola <span className="gold-text">Toplixa</span>
+                    <br />
+                    Dengan Mudah
+                  </h2>
+                  <p className="mt-4 text-sm text-white/30 leading-relaxed max-w-sm">
+                    kelola game, harga, dan pembayaran dalam satu panel terintegrasi.
+                  </p>
+                </div>
+              </div>
+
+              {/* Bottom controls */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/30 hover:text-white/60 hover:border-white/20 transition cursor-pointer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </div>
+                <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/30 hover:text-white/60 hover:border-white/20 transition cursor-pointer">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                </div>
+              </div>
             </div>
-
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="block text-xs font-medium uppercase tracking-[.15em] text-white/40"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full bg-raise/50 border border-white/[0.06] rounded-xl px-4 py-3.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-gold/40 focus:bg-raise transition-all duration-200"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="relative w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
-            >
-              {/* Button gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-gold via-gold-bright to-gold opacity-90 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute inset-0 bg-gradient-to-r from-gold-bright via-gold to-gold-bright opacity-0 group-hover:opacity-100 transition-opacity" />
-              {/* Button text */}
-              <span className="relative text-ink">
-                {loading ? (
-                  <span className="inline-flex items-center gap-2">
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Memproses…
-                  </span>
-                ) : (
-                  "Masuk"
-                )}
-              </span>
-            </button>
-          </form>
+          </div>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-[11px] text-white/20 mt-8">
-          Toplixa Admin Panel &copy; 2026
-        </p>
+        {/* Right form panel */}
+        <div className="w-full lg:w-[44%] flex flex-col items-center justify-center p-8 lg:p-12 relative">
+          {/* Mobile header */}
+          <div className="lg:hidden absolute top-0 left-0 right-0 p-6 flex items-center gap-2">
+            <LogoMark className="w-6 h-6" />
+            <span className="font-display font-semibold text-white/80 text-sm">Toplixa</span>
+          </div>
+
+          <div className="w-full max-w-[340px]">
+            {/* Brand */}
+            <div className="mb-8">
+              <p className="text-[10px] uppercase tracking-[.3em] text-gold/50 mb-2">Admin Panel</p>
+              <h1 className="font-display text-2xl font-bold text-white">
+                Hi, <span className="gold-text">Admin</span>
+              </h1>
+              <p className="mt-1 text-sm text-white/30">Welcome to Toplixa Admin</p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="flex items-center gap-3 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3">
+                  <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-red-400" />
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
+                  required
+                  className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-sm text-white placeholder:text-white/25 outline-none focus:border-gold/40 focus:bg-white/[0.05] transition-all duration-200"
+                />
+              </div>
+
+              <div>
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
+                    className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-sm text-white placeholder:text-white/25 outline-none focus:border-gold/40 focus:bg-white/[0.05] transition-all duration-200"
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-white/30 hover:text-gold/60 transition"
+                  >
+                    Lupa password?
+                  </button>
+                </div>
+              </div>
+
+              {/* Social login */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-center gap-3 bg-white/[0.04] border border-white/[0.08] rounded-xl py-3 text-sm text-white/60 hover:bg-white/[0.08] hover:text-white/80 transition-all duration-200"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                  Login dengan Google
+                </button>
+              </div>
+
+              {/* CTA Button */}
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="relative w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
+                  style={{ backgroundColor: "#d4af6a" }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-gold-bright via-gold to-gold-bright opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative text-[#0a0a0b]">
+                    {loading ? (
+                      <span className="inline-flex items-center gap-2">
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Memproses…
+                      </span>
+                    ) : (
+                      "Login"
+                    )}
+                  </span>
+                </button>
+              </div>
+
+              {/* Signup link */}
+              <p className="text-center text-xs text-white/25 pt-2">
+                Belum punya akses?{" "}
+                <span className="text-gold/60 hover:text-gold cursor-pointer transition">Hubungi developer</span>
+              </p>
+            </form>
+
+            {/* Social icons */}
+            <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-white/[0.04]">
+              {["Facebook", "Twitter", "LinkedIn", "Instagram"].map((social) => (
+                <div
+                  key={social}
+                  className="w-8 h-8 rounded-full bg-white/[0.04] flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/[0.08] transition cursor-pointer"
+                >
+                  <span className="text-[10px] font-medium">{social[0]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
