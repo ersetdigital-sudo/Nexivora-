@@ -17,20 +17,30 @@ export default function AdminLoginPage() {
     setError("");
     setLoading(true);
 
-    const supabase = createSupabaseClient();
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const supabase = createSupabaseClient();
 
-    if (authError) {
-      setError(authError.message);
+      const result = await Promise.race([
+        supabase.auth.signInWithPassword({ email, password }),
+        new Promise<{ error: Error }>((_, reject) =>
+          setTimeout(() => reject(new Error("Koneksi timeout. Periksa koneksi internet.")), 15000)
+        ),
+      ]);
+
+      const { error: authError } = result;
+
+      if (authError) {
+        setError(authError.message);
+        setLoading(false);
+        return;
+      }
+
+      router.push("/admin");
+      router.refresh();
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Terjadi kesalahan. Coba lagi.");
       setLoading(false);
-      return;
     }
-
-    router.push("/admin");
-    router.refresh();
   };
 
   return (
