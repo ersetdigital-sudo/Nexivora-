@@ -21,7 +21,7 @@ export default async function Home() {
         <FAQSection />
         <CTASection />
       </main>
-      <Footer games={games} />
+      <Footer />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}

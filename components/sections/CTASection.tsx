@@ -5,7 +5,7 @@ export function CTASection() {
   return (
     <section className="sect border-t border-white/10">
       <div className="max-w-6xl mx-auto px-5">
-        <Reveal className="card relative overflow-hidden p-8 sm:p-14 text-center">
+        <Reveal className="card relative overflow-hidden p-6 sm:p-8 md:p-14 text-center">
           <div className="absolute inset-0 grid-bg opacity-60" aria-hidden="true" />
           <div className="glow" style={{ width: 420, height: 420, background: "#7C5CFF", bottom: -220, left: "50%", transform: "translateX(-50%)", opacity: 0.35 }} />
           <div className="relative">

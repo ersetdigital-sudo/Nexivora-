@@ -50,7 +50,7 @@ export function HowItWorks() {
           <h2 className="mt-3 font-display text-3xl sm:text-5xl font-extrabold">Cara order</h2>
           <p className="mt-4 text-[#8A93A8]">Lima langkah, selesai dalam hitungan menit.</p>
         </Reveal>
-        <ol className="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        <ol className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-3.5">
           {STEPS.map((step, i) => (
             <Reveal key={step.num} delay={i * 80} className="card p-5">
               <div className="flex items-center justify-between">

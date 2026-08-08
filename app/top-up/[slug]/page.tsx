@@ -7,7 +7,7 @@ import { Footer } from "@/components/sections/Footer";
 import { GameOrderForm } from "@/components/sections/GameOrderForm";
 import { Breadcrumb, breadcrumbJsonLd } from "@/components/ui/Breadcrumb";
 import { site } from "@/lib/site";
-import { getGameBySlug, getQrisUrl, getActiveGames } from "@/lib/db";
+import { getGameBySlug, getQrisUrl } from "@/lib/db";
 import type { DbGameWithNominals } from "@/lib/db";
 
 interface PageProps {
@@ -40,7 +40,6 @@ export default async function TopUpPage({ params }: PageProps) {
   if (!game) notFound();
 
   const qrisUrl = await getQrisUrl();
-  const games = await getActiveGames();
 
   const crumbs = [
     { label: "Home", href: "/" },
@@ -115,7 +114,7 @@ export default async function TopUpPage({ params }: PageProps) {
           </div>
         </section>
       </main>
-      <Footer games={games} />
+      <Footer />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd(crumbs)) }}

@@ -90,7 +90,7 @@ export function GameOrderForm({ game, qrisUrl }: GameOrderFormProps) {
 
   return (
     <>
-      <form id="orderForm" onSubmit={handleSubmit} className="hairline rounded-3xl p-5 sm:p-6 md:p-8 bg-[#0c0c0d]/80 backdrop-blur-xl space-y-5">
+      <form id="orderForm" onSubmit={handleSubmit} className="hairline rounded-3xl p-4 sm:p-5 md:p-8 bg-[#0c0c0d]/80 backdrop-blur-xl space-y-4 sm:space-y-5">
         <div>
           <label htmlFor="gameSelect" className="block text-xs uppercase tracking-[.15em] text-white/40 mb-2">
             Pilih game
@@ -162,7 +162,7 @@ export function GameOrderForm({ game, qrisUrl }: GameOrderFormProps) {
           <span className="block text-xs uppercase tracking-[.15em] text-white/40 mb-3">
             Nominal <span className="text-red-400">*</span>
           </span>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3" role="radiogroup" aria-label="Pilih nominal">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3" role="radiogroup" aria-label="Pilih nominal">
             {nominals.map((nom) => {
               const active = pickedLabel === nom.nominal_label;
               return (

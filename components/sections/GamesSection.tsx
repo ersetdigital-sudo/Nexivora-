@@ -17,7 +17,7 @@ export function GamesSection({ games }: GamesSectionProps) {
           <p className="mt-4 text-[#8A93A8]">Lima game yang kami layani saat ini. Tekan tombol Top Up dan game akan langsung terpilih di form order.</p>
         </Reveal>
 
-        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {games.map((game, i) => (
             <Reveal as="article" key={game.slug} delay={i * 60} className="card p-5 flex flex-col">
               <div className="flex items-center justify-between gap-4">

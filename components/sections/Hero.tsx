@@ -7,7 +7,7 @@ interface HeroProps {
 
 export function Hero({ games }: HeroProps) {
   return (
-    <section id="top" className="relative overflow-hidden pt-28 pb-16 md:pt-48 md:pb-32">
+    <section id="top" className="relative overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-48 md:pb-32">
       <div className="absolute inset-0 grid-bg [mask-image:radial-gradient(ellipse_at_50%_0%,black,transparent_72%)]" aria-hidden="true" />
       <div className="glow" style={{ width: 520, height: 520, background: "#7C5CFF", top: -180, left: -120 }} />
       <div className="glow" style={{ width: 420, height: 420, background: "#22D3EE", top: -80, right: -140, opacity: 0.32 }} />

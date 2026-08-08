@@ -94,3 +94,22 @@ export async function getQrisUrl(): Promise<string> {
     .single() as { data: SettingsRow | null };
   return (data?.value as string) ?? "";
 }
+
+export interface SocialMedia {
+  instagram: string;
+  whatsapp: string;
+  email: string;
+}
+
+export async function getSocialMedia(): Promise<SocialMedia> {
+  const supabase = await createSupabaseServerClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (supabase.from("settings") as any)
+    .select("value")
+    .eq("key", "social_media")
+    .single() as { data: SettingsRow | null };
+  if (!data?.value || typeof data.value !== "object") {
+    return { instagram: "", whatsapp: "", email: "" };
+  }
+  return data.value as SocialMedia;
+}

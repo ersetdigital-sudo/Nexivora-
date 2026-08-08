@@ -30,7 +30,7 @@ const FAQS = [
 export function FAQSection() {
   return (
     <section id="faq" className="sect border-t border-white/10">
-      <div className="max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-10">
+      <div className="max-w-6xl mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
         <Reveal className="lg:col-span-4">
           <p className="font-mono text-xs uppercase tracking-[.2em] text-[#7C5CFF]">04 — FAQ</p>
           <h2 className="mt-3 font-display text-3xl sm:text-4xl font-extrabold">Pertanyaan yang sering diajukan</h2>

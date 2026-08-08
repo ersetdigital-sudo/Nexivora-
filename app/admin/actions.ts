@@ -128,3 +128,13 @@ export async function updateQrisImage(url: string) {
   revalidatePath("/admin");
   revalidatePath("/");
 }
+
+export async function updateSocialMedia(data: { instagram: string; whatsapp: string; email: string }) {
+  const supabase = await requireAdmin();
+  const { error } = await (supabase.from("settings") as any)
+    .upsert({ key: "social_media", value: data }, { onConflict: "key" });
+  if (error) throw error.message;
+  revalidatePath("/admin/social");
+  revalidatePath("/admin");
+  revalidatePath("/");
+}

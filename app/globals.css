@@ -32,14 +32,23 @@
     color: var(--color-fg);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
   }
 
   h1, h2, h3, h4 {
     letter-spacing: -0.02em;
   }
 
-  input, select {
+  input, select, textarea {
     color-scheme: dark;
+    font-size: 16px;
+  }
+
+  /* Better mobile touch targets */
+  @media (max-width: 640px) {
+    button, a, input, select, textarea {
+      min-height: 44px;
+    }
   }
 }
 
@@ -125,6 +134,15 @@
   .btn-gold:hover {
     filter: brightness(1.08);
     transform: translateY(-2px);
+  }
+  @media (max-width: 640px) {
+    .btn-gold {
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-gold:hover {
+      transform: none;
+    }
   }
 
   /* Game logo stage */
