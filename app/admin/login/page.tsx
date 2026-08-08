@@ -17,9 +17,13 @@ export default function AdminLoginPage() {
     setError("");
     setLoading(true);
 
+    console.log("[LOGIN] Submit clicked", { email });
+
     try {
       const supabase = createSupabaseClient();
+      console.log("[LOGIN] Supabase client created");
 
+      console.log("[LOGIN] Calling signInWithPassword...");
       const result = await Promise.race([
         supabase.auth.signInWithPassword({ email, password }),
         new Promise<{ error: Error }>((_, reject) =>
@@ -27,17 +31,22 @@ export default function AdminLoginPage() {
         ),
       ]);
 
+      console.log("[LOGIN] signInWithPassword result:", JSON.stringify(result));
+
       const { error: authError } = result;
 
       if (authError) {
+        console.log("[LOGIN] Auth error:", authError.message);
         setError(authError.message);
         setLoading(false);
         return;
       }
 
+      console.log("[LOGIN] Success, redirecting to /admin...");
       router.push("/admin");
       router.refresh();
     } catch (err: unknown) {
+      console.log("[LOGIN] Catch error:", err);
       setError(err instanceof Error ? err.message : "Terjadi kesalahan. Coba lagi.");
       setLoading(false);
     }
