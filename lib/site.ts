@@ -5,5 +5,5 @@ export const site = {
   url: "https://toplixa.com",
   locale: "id_ID",
   themeColor: "#070707",
-  ogImage: "/images/b2e5b738-1a7e-4847-a5af-a3058ec96c70.png",
+  ogImage: "/images/og-toplixa.svg",
 } as const;
