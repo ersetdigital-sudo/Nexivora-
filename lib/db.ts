@@ -14,8 +14,11 @@ export interface DbGame {
   icon_height: number;
   range_label: string;
   user_id_label: string;
+  user_id_placeholder: string;
   server_id_label: string;
+  server_id_placeholder: string;
   server_id_required: boolean;
+  hide_server_id: boolean;
 }
 
 export interface DbNominal {

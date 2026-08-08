@@ -63,7 +63,7 @@ export default async function TopUpPage({ params }: PageProps) {
                 <span className="gold-text">{game.range_label}</span>
               </h1>
               <p className="mt-5 text-white/50 text-sm font-light max-w-sm">
-                Tidak perlu password atau kode OTP. Cukup {game.user_id_label}{game.server_id_required ? ` & ${game.server_id_label}` : ` (dan ${game.server_id_label} untuk game tertentu)`}.
+                Tidak perlu password atau kode OTP. Cukup {game.user_id_label}{!game.hide_server_id && game.server_id_required ? ` & ${game.server_id_label}` : ""}.
               </p>
               <ul className="mt-8 space-y-3 text-sm text-white/60">
                 <li className="flex gap-3">

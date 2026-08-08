@@ -19,8 +19,11 @@ export interface Database {
           icon_height: number;
           range_label: string;
           user_id_label: string;
+          user_id_placeholder: string;
           server_id_label: string;
+          server_id_placeholder: string;
           server_id_required: boolean;
+          hide_server_id: boolean;
           is_active: boolean;
           sort_order: number;
           created_at: string;
@@ -35,8 +38,11 @@ export interface Database {
           icon_height?: number;
           range_label?: string;
           user_id_label?: string;
+          user_id_placeholder?: string;
           server_id_label?: string;
+          server_id_placeholder?: string;
           server_id_required?: boolean;
+          hide_server_id?: boolean;
           is_active?: boolean;
           sort_order?: number;
           created_at?: string;
@@ -51,8 +57,11 @@ export interface Database {
           icon_height?: number;
           range_label?: string;
           user_id_label?: string;
+          user_id_placeholder?: string;
           server_id_label?: string;
+          server_id_placeholder?: string;
           server_id_required?: boolean;
+          hide_server_id?: boolean;
           is_active?: boolean;
           sort_order?: number;
           created_at?: string;

@@ -12,8 +12,11 @@ create table if not exists games (
   icon_height int not null default 120,
   range_label text not null default '',
   user_id_label text not null default 'User ID',
+  user_id_placeholder text not null default '123456789',
   server_id_label text not null default 'Server ID',
+  server_id_placeholder text not null default '1234',
   server_id_required boolean not null default false,
+  hide_server_id boolean not null default false,
   is_active boolean not null default true,
   sort_order int not null default 0,
   created_at timestamptz not null default now(),
@@ -167,12 +170,12 @@ create trigger settings_updated_at
 -- ===================== SEED DATA =====================
 
 -- Insert default games (match current lib/games.ts)
-insert into games (slug, name, icon_url, icon_width, icon_height, range_label, server_id_required, sort_order) values
-  ('pubg-mobile', 'PUBG Mobile', '/images/2152abaf-2c67-44a4-aa81-b8cfee21fb8c.png', 512, 380, 'UC 60 – 8100', false, 1),
-  ('mobile-legends', 'Mobile Legends', '/images/mlbb.svg', 120, 120, 'Diamond 5 – 5000', true, 2),
-  ('free-fire', 'Free Fire', '/images/8b9500ef-e94d-484d-b247-3f975ef0f35a.png', 616, 90, 'Diamond 5 – 7290', false, 3),
-  ('magic-chess-go-go', 'Magic Chess Go Go', '/images/9a74910c-df0a-435b-a592-ab4be4fe33ac.png', 154, 62, 'Diamond & Pass', false, 4),
-  ('call-of-duty-mobile', 'Call of Duty: Mobile', '/images/5b821f40-5788-45dc-84c4-c4f4433e7314.webp', 445, 227, 'CP 80 – 10800', false, 5)
+insert into games (slug, name, icon_url, icon_width, icon_height, range_label, user_id_label, user_id_placeholder, server_id_label, server_id_placeholder, server_id_required, hide_server_id, sort_order) values
+  ('pubg-mobile', 'PUBG Mobile', '/images/2152abaf-2c67-44a4-aa81-b8cfee21fb8c.png', 512, 380, 'UC 60 – 8100', 'User ID', '123456789', 'Server ID', '1234', false, true, 1),
+  ('mobile-legends', 'Mobile Legends', '/images/mlbb.svg', 120, 120, 'Diamond 5 – 5000', 'User ID', '123456789', 'Zone ID', '1234', true, false, 2),
+  ('free-fire', 'Free Fire', '/images/8b9500ef-e94d-484d-b247-3f975ef0f35a.png', 616, 90, 'Diamond 5 – 7290', 'Player ID', '123456789', 'Server ID', '1234', false, true, 3),
+  ('magic-chess-go-go', 'Magic Chess Go Go', '/images/9a74910c-df0a-435b-a592-ab4be4fe33ac.png', 154, 62, 'Diamond & Pass', 'User ID', '123456789', 'Zone ID', '1234', true, false, 4),
+  ('call-of-duty-mobile', 'Call of Duty: Mobile', '/images/5b821f40-5788-45dc-84c4-c4f4433e7314.webp', 445, 227, 'CP 80 – 10800', 'UID', '1234567890', 'Server ID', '1234', false, true, 5)
 on conflict (slug) do nothing;
 
 -- Insert pricing for each game
