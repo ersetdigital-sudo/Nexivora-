@@ -21,12 +21,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `Top Up ${game.name} Murah & Instan`,
-    description: `Top up ${game.range_label} ${game.name} secara instan di Toplixa. Proses otomatis 24 jam, tanpa login akun, pembayaran lengkap.`,
+    description: `Top up ${game.range_label} ${game.name} secara instan di Nexivora. Proses otomatis 24 jam, tanpa login akun, pembayaran lengkap.`,
     openGraph: {
-      title: `Top Up ${game.name} Murah & Instan | Toplixa`,
-      description: `Top up ${game.range_label} ${game.name} secara instan di Toplixa. Proses otomatis 24 jam.`,
+      title: `Top Up ${game.name} Murah & Instan | Nexivora`,
+      description: `Top up ${game.range_label} ${game.name} secara instan di Nexivora. Proses otomatis 24 jam.`,
       url: `${site.url}/top-up/${slug}`,
-      images: [{ url: site.ogImage, width: 1200, height: 624, alt: `Top Up ${game.name} di Toplixa` }],
+      images: [{ url: site.ogImage, width: 1200, height: 624, alt: `Top Up ${game.name} di Nexivora` }],
     },
     alternates: {
       canonical: `/top-up/${slug}`,
@@ -52,7 +52,7 @@ export default async function TopUpPage({ params }: PageProps) {
       <Header />
       <main className="flex-1">
         <section className="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
-          <div className="glow" style={{ width: 420, height: 420, background: "#d4af6a", top: "10%", left: -140, opacity: 0.18 }} />
+          <div className="glow" style={{ width: 420, height: 420, background: "#7C5CFF", top: "10%", left: -140, opacity: 0.18 }} />
           <div className="relative max-w-5xl mx-auto px-5 grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-start">
             <div>
               <Breadcrumb items={crumbs} className="mb-4" />
@@ -99,7 +99,7 @@ export default async function TopUpPage({ params }: PageProps) {
           <div className="max-w-4xl mx-auto px-5 text-center relative">
             <div
               className="glow"
-              style={{ width: 400, height: 400, background: "#d4af6a", top: -120, left: "50%", transform: "translateX(-50%)", opacity: 0.2 }}
+              style={{ width: 400, height: 400, background: "#7C5CFF", top: -120, left: "50%", transform: "translateX(-50%)", opacity: 0.2 }}
             />
             <h2 className="relative font-display h-cta font-semibold leading-tight">
               Siap naik <span className="gold-text">rank</span> malam ini?

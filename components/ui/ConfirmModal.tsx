@@ -63,7 +63,7 @@ export function ConfirmModal({
                 ? "bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/20"
                 : "text-[#0a0a0b]"
             }`}
-            style={danger ? undefined : { backgroundColor: "#d4af6a" }}
+            style={danger ? undefined : { backgroundColor: "#7C5CFF" }}
           >
             {loading ? (
               <span className="inline-flex items-center gap-2">

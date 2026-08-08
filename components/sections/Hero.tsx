@@ -8,7 +8,7 @@ interface HeroProps {
 export function Hero({ games }: HeroProps) {
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 md:pt-48 md:pb-32">
-      <div className="glow" style={{ width: 520, height: 520, background: "#d4af6a", top: -180, left: "50%", transform: "translateX(-50%)" }} />
+      <div className="glow" style={{ width: 520, height: 520, background: "#7C5CFF", top: -180, left: "50%", transform: "translateX(-50%)" }} />
       <div className="glow" style={{ width: 380, height: 380, background: "#3a2c12", bottom: -160, right: -80 }} />
       <div className="relative max-w-6xl mx-auto px-5 text-center">
         <span className="inline-flex items-center gap-2 text-[11px] tracking-[.2em] uppercase text-white/60 hairline rounded-full px-4 py-1.5">

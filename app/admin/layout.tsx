@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="px-4 py-4 border-b border-white/[0.04]">
           <Link href="/" className="flex items-center gap-2">
             <LogoMark className="w-6 h-6 shrink-0" />
-            <span className="font-display font-semibold text-sm tracking-tight text-white/90">Toplixa</span>
+            <span className="font-display font-semibold text-sm tracking-tight text-white/90">Nexivora</span>
           </Link>
           <p className="text-[10px] text-white/25 mt-1 uppercase tracking-[.15em]">Admin Panel</p>
         </div>

@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #070707;
-  --color-panel: #0e0e0f;
-  --color-raise: #131315;
-  --color-fg: #f5f5f5;
-  --color-gold: #d4af6a;
-  --color-gold-bright: #e7cf9c;
-  --color-gold-deep: #a8813f;
-  --color-muted: #9a9a9f;
+  --color-ink: #07090F;
+  --color-panel: #0E121C;
+  --color-raise: #141926;
+  --color-fg: #F4F6FB;
+  --color-gold: #7C5CFF;
+  --color-gold-bright: #22D3EE;
+  --color-gold-deep: #6D45F5;
+  --color-muted: #8A93A8;
 
   --font-sans: var(--font-manrope);
   --font-display: var(--font-sora);
 
   --radius-card: 1.25rem;
-  --shadow-card: 0 24px 60px -30px rgba(212, 175, 106, 0.55);
+  --shadow-card: 0 24px 60px -30px rgba(124, 92, 255, 0.55);
 }
 
 @layer base {
@@ -44,9 +44,9 @@
 }
 
 @layer components {
-  /* Gold gradient headline text */
+  /* Violet-cyan gradient headline text */
   .gold-text {
-    background: linear-gradient(100deg, #f4e3bd, #d4af6a 45%, #a9814a);
+    background: linear-gradient(100deg, #FFFFFF 20%, #7C5CFF 60%, #22D3EE);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -71,10 +71,10 @@
     }
   }
 
-  /* Product card with gold hover lift */
+  /* Product card with violet hover lift */
   .card {
     position: relative;
-    background: linear-gradient(160deg, #141416 0%, #0b0b0c 100%);
+    background: linear-gradient(160deg, #0E121C 0%, #07090F 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-card);
     overflow: hidden;
@@ -87,14 +87,14 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(120% 90% at 50% 0%, rgba(212, 175, 106, 0.14), transparent 60%);
+    background: radial-gradient(120% 90% at 50% 0%, rgba(124, 92, 255, 0.14), transparent 60%);
     opacity: 0;
     transition: opacity 0.35s;
     pointer-events: none;
   }
   .card:hover {
     transform: translateY(-6px);
-    border-color: rgba(212, 175, 106, 0.45);
+    border-color: rgba(124, 92, 255, 0.45);
     box-shadow: var(--shadow-card);
   }
   .card:hover::after {
@@ -109,14 +109,16 @@
     }
   }
 
-  /* Primary gold button */
+  /* Primary violet-cyan button */
   .btn-gold {
-    background: linear-gradient(100deg, #e7cf9c, #c9a35d);
-    color: #141007;
-    transition: filter 0.2s;
+    background: linear-gradient(100deg, #6D45F5, #0E93B8);
+    color: #FFFFFF;
+    transition: filter 0.2s, transform 0.2s;
+    box-shadow: 0 10px 34px -12px rgba(124, 92, 255, 0.75);
   }
   .btn-gold:hover {
     filter: brightness(1.08);
+    transform: translateY(-2px);
   }
 
   /* Game logo stage */
@@ -188,11 +190,11 @@
   /* Checkout sheet */
   .pay-card {
     width: 100%;
-    background: linear-gradient(170deg, #131315, #0a0a0b);
-    border: 1px solid rgba(212, 175, 106, 0.22);
+    background: linear-gradient(170deg, #0E121C, #07090F);
+    border: 1px solid rgba(124, 92, 255, 0.22);
     border-radius: 26px;
     padding: 26px 22px;
-    box-shadow: 0 40px 120px -40px rgba(212, 175, 106, 0.35);
+    box-shadow: 0 40px 120px -40px rgba(124, 92, 255, 0.35);
     animation: sheetIn 0.45s cubic-bezier(0.2, 0.8, 0.25, 1);
   }
   @keyframes sheetIn {
@@ -233,7 +235,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 18px;
-    background: rgba(10, 10, 11, 0.72);
+    background: rgba(7, 9, 15, 0.72);
     color: #fff;
     font-family: var(--font-sora);
     font-size: 13px;

@@ -6,7 +6,7 @@ export function CTASection() {
       <div className="max-w-4xl mx-auto px-5 text-center relative">
         <div
           className="glow"
-          style={{ width: 400, height: 400, background: "#d4af6a", top: -120, left: "50%", transform: "translateX(-50%)", opacity: 0.2 }}
+          style={{ width: 400, height: 400, background: "#7C5CFF", top: -120, left: "50%", transform: "translateX(-50%)", opacity: 0.2 }}
         />
         <h2 className="relative font-display h-cta font-semibold leading-tight">
           Siap naik <span className="gold-text">rank</span> malam ini?

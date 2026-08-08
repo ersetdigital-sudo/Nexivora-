@@ -36,8 +36,8 @@ const sora = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Toplixa — Top Up Game Instan, Aman & Murah",
-    template: "%s — Toplixa",
+    default: "Nexivora — Top Up Game Cepat, Aman, Otomatis 24 Jam",
+    template: "%s — Nexivora",
   },
   description: site.description,
   alternates: {
@@ -47,15 +47,15 @@ export const metadata: Metadata = {
     type: "website",
     siteName: site.name,
     locale: site.locale,
-    title: "Toplixa — Top Up Game Instan, Aman & Murah",
-    description: "Top up UC, diamond, dan CP untuk PUBG Mobile, Mobile Legends, Free Fire, Magic Chess Go Go, dan Call of Duty Mobile. Proses otomatis 24 jam.",
+    title: "Nexivora — Top Up Game Cepat, Aman, Otomatis 24 Jam",
+    description: "Top up diamond, UC, dan CP secara otomatis. Pembayaran lengkap, proses cepat, layanan online 24 jam.",
     url: site.url,
-    images: [{ url: site.ogImage, width: 1200, height: 624, alt: "Toplixa — Top Up Game Instan, Aman & Murah" }],
+    images: [{ url: site.ogImage, width: 1200, height: 624, alt: "Nexivora — Top Up Game Cepat, Aman, Otomatis 24 Jam" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Toplixa — Top Up Game Instan, Aman & Murah",
-    description: "Top up UC, diamond, dan CP untuk 5 game populer. Proses otomatis 24 jam.",
+    title: "Nexivora — Top Up Game Cepat, Aman, Otomatis 24 Jam",
+    description: "Top up diamond, UC, dan CP secara otomatis. Pembayaran lengkap, proses cepat, layanan online 24 jam.",
     images: [site.ogImage],
   },
   robots: {

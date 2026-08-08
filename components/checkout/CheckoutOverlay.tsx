@@ -76,7 +76,7 @@ export function CheckoutOverlay({ order, onClose }: CheckoutOverlayProps) {
   const handlePaid = () => {
     setStep("done");
     setDeliverMsg("Mengirim item… estimasi < 10 detik");
-    const colors = ["#d4af6a", "#f4e3bd", "#34d399", "#ffffff"];
+    const colors = ["#7C5CFF", "#a78bfa", "#34d399", "#ffffff"];
     const pieces = Array.from({ length: 26 }, (_, i) => ({
       id: Date.now() + i,
       left: Math.random() * 100,
@@ -104,7 +104,7 @@ export function CheckoutOverlay({ order, onClose }: CheckoutOverlayProps) {
       className="fixed inset-0 z-[80]"
       role="dialog"
       aria-modal="true"
-      aria-label="Pembayaran Toplixa"
+      aria-label="Pembayaran Nexivora"
       style={{ display: step === "done" || step === "expired" ? undefined : "block" }}
     >
       <div className="absolute inset-0 bg-[rgba(3,3,4,.82)] backdrop-blur-[14px]" onClick={onClose} />
@@ -134,7 +134,7 @@ export function CheckoutOverlay({ order, onClose }: CheckoutOverlayProps) {
                     cx="22"
                     cy="22"
                     r="19"
-                    stroke={low ? "#f87171" : "#d4af6a"}
+                    stroke={low ? "#f87171" : "#7C5CFF"}
                     strokeDasharray={String(RING_C)}
                     strokeDashoffset={String(ringOffset)}
                   />
@@ -153,13 +153,13 @@ export function CheckoutOverlay({ order, onClose }: CheckoutOverlayProps) {
               <div className="mt-5 relative" style={{ background: "#fff", borderRadius: 18, padding: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
                 <div className="flex items-center gap-2 self-start">
                   <span className="font-display text-[13px] font-bold tracking-tight text-[#0b0b0c]">QRIS</span>
-                  <span className="text-[9px] text-[#0b0b0c]/50 uppercase tracking-[.18em]">Toplixa</span>
+                  <span className="text-[9px] text-[#0b0b0c]/50 uppercase tracking-[.18em]">Nexivora</span>
                 </div>
                 {order.qrisUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={order.qrisUrl}
-                    alt="QRIS Toplixa"
+                    alt="QRIS Nexivora"
                     width={190}
                     height={190}
                     style={{ width: "min(58vw, 190px)", height: "auto", borderRadius: 6, objectFit: "contain" }}

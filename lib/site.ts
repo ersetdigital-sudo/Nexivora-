@@ -1,9 +1,9 @@
 export const site = {
-  name: "Toplixa",
+  name: "Nexivora",
   description:
-    "Toplixa: top up diamond, UC, dan CP untuk PUBG Mobile, Mobile Legends, Free Fire, Magic Chess Go Go, dan Call of Duty Mobile. Proses instan 24 jam.",
-  url: "https://toplixa.com",
+    "Nexivora adalah layanan top up game otomatis: top up Mobile Legends, Free Fire, PUBG Mobile, Call of Duty Mobile, dan Magic Chess Go Go. Proses cepat, pembayaran lengkap, aman, online 24 jam.",
+  url: "https://nexivora.store",
   locale: "id_ID",
-  themeColor: "#070707",
-  ogImage: "/images/og-toplixa.png",
+  themeColor: "#07090F",
+  ogImage: "/images/og-nexivora.png",
 } as const;

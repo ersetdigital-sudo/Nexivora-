@@ -29,9 +29,9 @@ export function Header() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/5">
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2" aria-label="Toplixa — kembali ke beranda">
+        <Link href="/" className="flex items-center gap-2" aria-label="Nexivora — kembali ke beranda">
           <LogoMark className="w-9 h-9 shrink-0" />
-          <span className="font-display font-semibold tracking-tight text-lg">Toplixa</span>
+          <span className="font-display font-semibold tracking-tight text-lg">Nexivora</span>
         </Link>
 
         <nav className="hidden sm:flex items-center gap-5 md:gap-8 text-[13px] md:text-sm text-white/70">

@@ -265,7 +265,7 @@ export function GamePricingCard({ game, nominals }: GameCardProps) {
             type="submit"
             disabled={loading}
             className="shrink-0 px-4 py-2.5 text-sm font-semibold rounded-lg transition disabled:opacity-50"
-            style={{ backgroundColor: "#d4af6a", color: "#0a0a0b" }}
+            style={{ backgroundColor: "#7C5CFF", color: "#0a0a0b" }}
           >
             {loading ? "…" : "Tambah"}
           </button>

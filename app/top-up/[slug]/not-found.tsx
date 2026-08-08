@@ -11,7 +11,7 @@ export default function NotFound() {
           <p className="font-display text-6xl font-semibold text-white/10">404</p>
           <h1 className="mt-4 font-display text-2xl font-semibold">Game tidak ditemukan</h1>
           <p className="mt-3 text-sm text-white/50 font-light max-w-sm mx-auto">
-            Game yang kamu cari belum tersedia di Toplixa. Cek katalog kami untuk melihat game yang tersedia.
+            Game yang kamu cari belum tersedia di Nexivora. Cek katalog kami untuk melihat game yang tersedia.
           </p>
           <Link
             href="/#games"

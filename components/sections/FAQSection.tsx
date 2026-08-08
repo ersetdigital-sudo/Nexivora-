@@ -9,7 +9,7 @@ const FAQS = [
   },
   {
     q: "Kalau transaksi gagal bagaimana?",
-    a: "Dana dikembalikan 100% ke metode pembayaran asal, atau disimpan sebagai saldo Toplixa sesuai pilihanmu.",
+    a: "Dana dikembalikan 100% ke metode pembayaran asal, atau disimpan sebagai saldo Nexivora sesuai pilihanmu.",
   },
   {
     q: "Bisa request game lain?",

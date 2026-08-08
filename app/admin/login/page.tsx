@@ -103,11 +103,11 @@ export default function AdminLoginPage() {
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
           className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full blur-3xl opacity-[0.04]"
-          style={{ background: "#d4af6a" }}
+          style={{ background: "#7C5CFF" }}
         />
         <div
           className="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.03]"
-          style={{ background: "#d4af6a" }}
+          style={{ background: "#7C5CFF" }}
         />
       </div>
 
@@ -129,7 +129,7 @@ export default function AdminLoginPage() {
             <div
               className="absolute inset-0 opacity-[0.03]"
               style={{
-                backgroundImage: `linear-gradient(rgba(212,175,106,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,106,0.3) 1px, transparent 1px)`,
+                backgroundImage: `linear-gradient(rgba(124,92,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.3) 1px, transparent 1px)`,
                 backgroundSize: "60px 60px",
               }}
             />
@@ -137,7 +137,7 @@ export default function AdminLoginPage() {
             {/* Floating glow */}
             <div
               className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full blur-3xl opacity-10"
-              style={{ background: "#d4af6a" }}
+              style={{ background: "#7C5CFF" }}
             />
 
             {/* Content */}
@@ -146,7 +146,7 @@ export default function AdminLoginPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <LogoMark className="w-6 h-6" />
-                  <span className="font-display font-semibold text-white/80 text-sm">Toplixa</span>
+                  <span className="font-display font-semibold text-white/80 text-sm">Nexivora</span>
                 </div>
                 <div className="flex gap-6 text-[11px] uppercase tracking-[.15em] text-white/30">
                   <span className="text-gold/60">Admin</span>
@@ -159,7 +159,7 @@ export default function AdminLoginPage() {
                 <div>
                   <p className="text-[10px] uppercase tracking-[.3em] text-gold/40 mb-3">Dashboard</p>
                   <h2 className="font-display text-4xl font-bold text-white/90 leading-tight">
-                    Kelola <span className="gold-text">Toplixa</span>
+                    Kelola <span className="gold-text">Nexivora</span>
                     <br />
                     Dengan Mudah
                   </h2>
@@ -191,7 +191,7 @@ export default function AdminLoginPage() {
               <h1 className="font-display text-2xl font-bold text-white">
                 Hi, <span className="gold-text">Admin</span>
               </h1>
-              <p className="mt-1 text-sm text-white/30">Welcome to Toplixa Admin</p>
+              <p className="mt-1 text-sm text-white/30">Welcome to Nexivora Admin</p>
             </div>
 
             {/* Form */}
@@ -257,7 +257,7 @@ export default function AdminLoginPage() {
                   type="submit"
                   disabled={loading}
                   className="relative w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
-                  style={{ backgroundColor: "#d4af6a" }}
+                  style={{ backgroundColor: "#7C5CFF" }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-gold-bright via-gold to-gold-bright opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative text-[#0a0a0b]">
