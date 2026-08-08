@@ -111,5 +111,5 @@ export async function getSocialMedia(): Promise<SocialMedia> {
   if (!data?.value || typeof data.value !== "object") {
     return { instagram: "", whatsapp: "", email: "" };
   }
-  return data.value as SocialMedia;
+  return data.value as unknown as SocialMedia;
 }
