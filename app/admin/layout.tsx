@@ -1,6 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { usePathname } from "next/navigation";
 import { LogoMark } from "@/components/ui/LogoMark";
 
 const NAV = [
@@ -9,12 +10,14 @@ const NAV = [
   { href: "/admin/qris", label: "Kelola QRIS", icon: "◈" },
 ];
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isLogin = pathname === "/admin/login";
 
-  // Login page doesn't need the admin shell
-  const isLogin = false; // handled by redirect in middleware
+  // Login page: no sidebar, full screen
+  if (isLogin) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="min-h-screen bg-ink flex">
@@ -32,7 +35,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link
               key={item.href}
               href={item.href}
-              className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition"
+              className={`flex items-center gap-2.5 px-3 py-2.5 text-sm rounded-lg transition ${
+                pathname === item.href
+                  ? "text-white bg-white/5"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
             >
               <span className="text-white/30 text-xs">{item.icon}</span>
               {item.label}
@@ -40,9 +47,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           ))}
         </nav>
         <div className="px-5 py-4 border-t border-white/5">
-          <p className="text-[11px] text-white/30 truncate">{user?.email}</p>
           <form action="/api/auth/signout" method="post">
-            <button type="submit" className="text-xs text-white/40 hover:text-white/70 transition mt-1">
+            <button type="submit" className="text-xs text-white/40 hover:text-white/70 transition">
               Keluar
             </button>
           </form>

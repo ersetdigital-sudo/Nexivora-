@@ -35,60 +35,15 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0b] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background slanted image panel */}
-      <div className="absolute inset-0 hidden lg:block">
+      {/* Subtle background glows */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div
-          className="absolute inset-0"
-          style={{
-            clipPath: "polygon(0 0, 55% 0, 48% 100%, 0 100%)",
-          }}
-        >
-          {/* Gradient overlay on image area */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gold/10 via-[#0a0a0b] to-[#0a0a0b]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-transparent to-[#0a0a0b]/80" />
-
-          {/* Decorative elements inside the slanted panel */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full h-full">
-              {/* Grid pattern */}
-              <div
-                className="absolute inset-0 opacity-[0.03]"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(212,175,106,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,106,0.3) 1px, transparent 1px)`,
-                  backgroundSize: "60px 60px",
-                }}
-              />
-              {/* Floating glow */}
-              <div
-                className="absolute top-1/4 left-1/3 w-96 h-96 rounded-full blur-3xl opacity-10"
-                style={{ background: "#d4af6a" }}
-              />
-              <div
-                className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-5"
-                style={{ background: "#d4af6a" }}
-              />
-
-              {/* Brand text overlay */}
-              <div className="absolute bottom-16 left-16 max-w-md">
-                <p className="text-[11px] uppercase tracking-[.3em] text-gold/40 mb-3">Admin Panel</p>
-                <h2 className="font-display text-4xl font-bold text-white/90 leading-tight">
-                  Kelola <span className="gold-text">Toplixa</span>
-                  <br />
-                  Dengan Mudah
-                </h2>
-                <p className="mt-4 text-sm text-white/30 leading-relaxed">
-                  kelola game, harga, dan pembayaran dalam satu panel terintegrasi.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Right side dark fill */}
+          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full blur-3xl opacity-[0.04]"
+          style={{ background: "#d4af6a" }}
+        />
         <div
-          className="absolute inset-0 bg-[#0a0a0b]"
-          style={{
-            clipPath: "polygon(55% 0, 100% 0, 100% 100%, 48% 100%)",
-          }}
+          className="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full blur-3xl opacity-[0.03]"
+          style={{ background: "#d4af6a" }}
         />
       </div>
 
@@ -102,12 +57,28 @@ export default function AdminLoginPage() {
               clipPath: "polygon(0 0, 100% 0, 88% 100%, 0% 100%)",
             }}
           >
+            {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-gold/8 via-[#0a0a0b] to-[#0a0a0b]" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0b] via-transparent to-[#0a0a0b]/60" />
 
-            {/* Decorative content */}
+            {/* Grid pattern */}
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage: `linear-gradient(rgba(212,175,106,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,106,0.3) 1px, transparent 1px)`,
+                backgroundSize: "60px 60px",
+              }}
+            />
+
+            {/* Floating glow */}
+            <div
+              className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full blur-3xl opacity-10"
+              style={{ background: "#d4af6a" }}
+            />
+
+            {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-10">
-              {/* Nav */}
+              {/* Top nav */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <LogoMark className="w-6 h-6" />
@@ -119,7 +90,7 @@ export default function AdminLoginPage() {
                 </div>
               </div>
 
-              {/* Center content */}
+              {/* Center text */}
               <div className="flex-1 flex items-center">
                 <div>
                   <p className="text-[10px] uppercase tracking-[.3em] text-gold/40 mb-3">Dashboard</p>
@@ -134,7 +105,7 @@ export default function AdminLoginPage() {
                 </div>
               </div>
 
-              {/* Bottom controls */}
+              {/* Bottom arrows */}
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/30 hover:text-white/60 hover:border-white/20 transition cursor-pointer">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
@@ -149,12 +120,6 @@ export default function AdminLoginPage() {
 
         {/* Right form panel */}
         <div className="w-full lg:w-[44%] flex flex-col items-center justify-center p-8 lg:p-12 relative">
-          {/* Mobile header */}
-          <div className="lg:hidden absolute top-0 left-0 right-0 p-6 flex items-center gap-2">
-            <LogoMark className="w-6 h-6" />
-            <span className="font-display font-semibold text-white/80 text-sm">Toplixa</span>
-          </div>
-
           <div className="w-full max-w-[340px]">
             {/* Brand */}
             <div className="mb-8">
@@ -254,12 +219,12 @@ export default function AdminLoginPage() {
 
             {/* Social icons */}
             <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-white/[0.04]">
-              {["Facebook", "Twitter", "LinkedIn", "Instagram"].map((social) => (
+              {["F", "T", "L", "I"].map((icon, i) => (
                 <div
-                  key={social}
+                  key={i}
                   className="w-8 h-8 rounded-full bg-white/[0.04] flex items-center justify-center text-white/20 hover:text-white/50 hover:bg-white/[0.08] transition cursor-pointer"
                 >
-                  <span className="text-[10px] font-medium">{social[0]}</span>
+                  <span className="text-[10px] font-medium">{icon}</span>
                 </div>
               ))}
             </div>
