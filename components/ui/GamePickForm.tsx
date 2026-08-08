@@ -2,9 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { GAMES } from "@/lib/games";
+import type { DbGameWithNominals } from "@/lib/db";
 
-export function GamePickForm() {
+interface GamePickFormProps {
+  games: DbGameWithNominals[];
+}
+
+export function GamePickForm({ games }: GamePickFormProps) {
   const [slug, setSlug] = useState("");
   const router = useRouter();
 
@@ -24,7 +28,7 @@ export function GamePickForm() {
         className="w-full sm:flex-1 bg-raise hairline rounded-xl px-4 py-3.5 text-sm outline-none focus:border-gold/60 transition"
       >
         <option value="">Pilih game…</option>
-        {GAMES.map((g) => (
+        {games.map((g) => (
           <option key={g.slug} value={g.slug}>
             {g.name}
           </option>

@@ -12,6 +12,7 @@ export interface CheckoutOrder {
   price: number;
   total: number;
   orderId: string;
+  qrisUrl?: string;
 }
 
 interface CheckoutOverlayProps {
@@ -154,7 +155,18 @@ export function CheckoutOverlay({ order, onClose }: CheckoutOverlayProps) {
                   <span className="font-display text-[13px] font-bold tracking-tight text-[#0b0b0c]">QRIS</span>
                   <span className="text-[9px] text-[#0b0b0c]/50 uppercase tracking-[.18em]">Toplixa</span>
                 </div>
-                <canvas ref={canvasRef} width={180} height={180} style={{ width: "min(58vw, 190px)", height: "min(58vw, 190px)", imageRendering: "pixelated", borderRadius: 6 }} />
+                {order.qrisUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={order.qrisUrl}
+                    alt="QRIS Toplixa"
+                    width={190}
+                    height={190}
+                    style={{ width: "min(58vw, 190px)", height: "auto", borderRadius: 6, objectFit: "contain" }}
+                  />
+                ) : (
+                  <canvas ref={canvasRef} width={180} height={180} style={{ width: "min(58vw, 190px)", height: "min(58vw, 190px)", imageRendering: "pixelated", borderRadius: 6 }} />
+                )}
                 <p className="text-[10px] text-[#0b0b0c]/55 pb-1">Satu QR untuk semua e-wallet &amp; m-banking</p>
               </div>
 

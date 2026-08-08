@@ -1,35 +1,37 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { GAMES, type Game } from "@/lib/games";
 import { formatOrderId, rupiah } from "@/lib/format";
 import { CheckoutOverlay, type CheckoutOrder } from "@/components/checkout/CheckoutOverlay";
+import type { DbGameWithNominals } from "@/lib/db";
 
 interface GameOrderFormProps {
-  initialSlug: string;
+  game: DbGameWithNominals;
+  qrisUrl: string;
 }
 
-export function GameOrderForm({ initialSlug }: GameOrderFormProps) {
-  const [gameSlug] = useState(initialSlug);
+export function GameOrderForm({ game, qrisUrl }: GameOrderFormProps) {
   const [userId, setUserId] = useState("");
   const [serverId, setServerId] = useState("");
   const [pickedLabel, setPickedLabel] = useState<string | null>(null);
   const [order, setOrder] = useState<CheckoutOrder | null>(null);
 
-  const game: Game = useMemo(() => GAMES.find((g) => g.slug === gameSlug) ?? GAMES[0], [gameSlug]);
+  const nominals = useMemo(() => game.nominals ?? [], [game.nominals]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const nominal = game.nominals.find((n) => n.label === pickedLabel) ?? game.nominals[0];
+    const nominal = nominals.find((n) => n.nominal_label === pickedLabel) ?? nominals[0];
+    if (!nominal) return;
     const uniqueCode = Math.floor(Math.random() * 400 + 100);
     setOrder({
       game: game.name,
       userId: userId.trim() || "—",
       serverId: serverId.trim() || "—",
-      nominalLabel: nominal.label,
+      nominalLabel: nominal.nominal_label,
       price: nominal.price,
       total: nominal.price + uniqueCode,
       orderId: formatOrderId(),
+      qrisUrl,
     });
   };
 
@@ -42,7 +44,7 @@ export function GameOrderForm({ initialSlug }: GameOrderFormProps) {
           </label>
           <select
             id="gameSelect"
-            value={gameSlug}
+            value={game.slug}
             disabled
             className="w-full bg-raise hairline rounded-xl px-4 py-3 text-sm outline-none opacity-70 cursor-not-allowed"
           >
@@ -53,7 +55,7 @@ export function GameOrderForm({ initialSlug }: GameOrderFormProps) {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="userId" className="block text-xs uppercase tracking-[.15em] text-white/40 mb-2">
-              User ID
+              {game.user_id_label}
             </label>
             <input
               id="userId"
@@ -66,14 +68,15 @@ export function GameOrderForm({ initialSlug }: GameOrderFormProps) {
           </div>
           <div>
             <label htmlFor="serverId" className="block text-xs uppercase tracking-[.15em] text-white/40 mb-2">
-              Server ID
+              {game.server_id_label} {game.server_id_required ? "" : "(opsional)"}
             </label>
             <input
               id="serverId"
               type="text"
               value={serverId}
               onChange={(e) => setServerId(e.target.value)}
-              placeholder="opsional"
+              placeholder={game.server_id_required ? "Wajib diisi" : "opsional"}
+              required={game.server_id_required}
               className="w-full bg-raise hairline rounded-xl px-4 py-3 text-sm outline-none focus:border-gold/60 transition"
             />
           </div>
@@ -82,22 +85,22 @@ export function GameOrderForm({ initialSlug }: GameOrderFormProps) {
         <div>
           <span className="block text-xs uppercase tracking-[.15em] text-white/40 mb-3">Nominal</span>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3" role="radiogroup" aria-label="Pilih nominal">
-            {game.nominals.map((nom) => {
-              const active = pickedLabel === nom.label;
+            {nominals.map((nom) => {
+              const active = pickedLabel === nom.nominal_label;
               return (
                 <button
-                  key={nom.label}
+                  key={nom.id}
                   type="button"
                   role="radio"
                   aria-checked={active}
-                  onClick={() => setPickedLabel(nom.label)}
+                  onClick={() => setPickedLabel(nom.nominal_label)}
                   className={`hairline rounded-xl px-3 py-3 text-sm transition min-h-[44px] ${
                     active
                       ? "border-gold/80 bg-gold/10 text-white"
                       : "text-white/75 hover:border-gold/60"
                   }`}
                 >
-                  {nom.label}
+                  {nom.nominal_label}
                   <span className="block text-[11px] text-white/40">{rupiah(nom.price)}</span>
                 </button>
               );

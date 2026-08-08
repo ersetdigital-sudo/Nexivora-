@@ -2,32 +2,29 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { GAMES, getGame } from "@/lib/games";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { GameOrderForm } from "@/components/sections/GameOrderForm";
 import { Breadcrumb, breadcrumbJsonLd } from "@/components/ui/Breadcrumb";
 import { site } from "@/lib/site";
+import { getGameBySlug, getQrisUrl } from "@/lib/db";
+import type { DbGameWithNominals } from "@/lib/db";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return GAMES.map((g) => ({ slug: g.slug }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const game = getGame(slug);
+  const game = await getGameBySlug(slug);
   if (!game) return { title: "Game tidak ditemukan" };
 
   return {
     title: `Top Up ${game.name} Murah & Instan`,
-    description: `Top up ${game.range} ${game.name} secara instan di Toplixa. Proses otomatis 24 jam, tanpa login akun, pembayaran lengkap.`,
+    description: `Top up ${game.range_label} ${game.name} secara instan di Toplixa. Proses otomatis 24 jam, tanpa login akun, pembayaran lengkap.`,
     openGraph: {
       title: `Top Up ${game.name} Murah & Instan | Toplixa`,
-      description: `Top up ${game.range} ${game.name} secara instan di Toplixa. Proses otomatis 24 jam.`,
+      description: `Top up ${game.range_label} ${game.name} secara instan di Toplixa. Proses otomatis 24 jam.`,
       url: `${site.url}/top-up/${slug}`,
       images: [{ url: site.ogImage, width: 1200, height: 624, alt: `Top Up ${game.name} di Toplixa` }],
     },
@@ -39,8 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function TopUpPage({ params }: PageProps) {
   const { slug } = await params;
-  const game = getGame(slug);
+  const game: DbGameWithNominals | null = await getGameBySlug(slug);
   if (!game) notFound();
+
+  const qrisUrl = await getQrisUrl();
 
   const crumbs = [
     { label: "Home", href: "/" },
@@ -61,10 +60,10 @@ export default async function TopUpPage({ params }: PageProps) {
               <h1 className="mt-3 font-display h-sec font-semibold">
                 {game.name}
                 <br />
-                <span className="gold-text">{game.range}</span>
+                <span className="gold-text">{game.range_label}</span>
               </h1>
               <p className="mt-5 text-white/50 text-sm font-light max-w-sm">
-                Tidak perlu password atau kode OTP. Cukup User ID{game.name === "Mobile Legends" ? " & Server ID" : " (dan Server ID untuk game tertentu)"}.
+                Tidak perlu password atau kode OTP. Cukup {game.user_id_label}{game.server_id_required ? ` & ${game.server_id_label}` : ` (dan ${game.server_id_label} untuk game tertentu)`}.
               </p>
               <ul className="mt-8 space-y-3 text-sm text-white/60">
                 <li className="flex gap-3">
@@ -81,19 +80,18 @@ export default async function TopUpPage({ params }: PageProps) {
               <div className="mt-8 hidden lg:block">
                 <div className="logo-wrap !h-auto justify-start">
                   <Image
-                    src={game.logo}
+                    src={game.icon_url}
                     alt={`Logo ${game.name}`}
-                    width={game.logoWidth}
-                    height={game.logoHeight}
+                    width={game.icon_width}
+                    height={game.icon_height}
                     className="w-auto h-auto"
-                    style={game.logoStyle === "fill" ? undefined : { objectFit: "contain" }}
                     sizes="120px"
                   />
                 </div>
               </div>
             </div>
 
-            <GameOrderForm initialSlug={slug} />
+            <GameOrderForm game={game} qrisUrl={qrisUrl} />
           </div>
         </section>
 

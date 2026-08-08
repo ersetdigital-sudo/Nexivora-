@@ -1,6 +1,11 @@
 import { GamePickForm } from "@/components/ui/GamePickForm";
+import type { DbGameWithNominals } from "@/lib/db";
 
-export function Hero() {
+interface HeroProps {
+  games: DbGameWithNominals[];
+}
+
+export function Hero({ games }: HeroProps) {
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 md:pt-48 md:pb-32">
       <div className="glow" style={{ width: 520, height: 520, background: "#d4af6a", top: -180, left: "50%", transform: "translateX(-50%)" }} />
@@ -33,7 +38,7 @@ export function Hero() {
         </ul>
 
         <div className="mt-9 relative">
-          <GamePickForm />
+          <GamePickForm games={games} />
         </div>
 
         <div className="mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto">

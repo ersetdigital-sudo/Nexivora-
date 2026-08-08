@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { GAMES } from "@/lib/games";
 import { Reveal } from "@/components/ui/Reveal";
+import type { DbGameWithNominals } from "@/lib/db";
 
-export function GamesSection() {
+interface GamesSectionProps {
+  games: DbGameWithNominals[];
+}
+
+export function GamesSection({ games }: GamesSectionProps) {
   return (
     <section id="games" className="relative sect border-t border-white/5">
       <div className="max-w-6xl mx-auto px-5">
@@ -18,22 +22,21 @@ export function GamesSection() {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {GAMES.map((game, i) => (
+          {games.map((game, i) => (
             <Reveal as="article" key={game.slug} delay={i * 60} className="card p-4 sm:p-5 md:p-6 flex flex-col">
               <div className="logo-wrap">
                 <Image
-                  src={game.logo}
+                  src={game.icon_url}
                   alt={`Logo ${game.name}`}
-                  width={game.logoWidth}
-                  height={game.logoHeight}
+                  width={game.icon_width}
+                  height={game.icon_height}
                   className="w-auto h-auto"
-                  style={game.logoStyle === "fill" ? undefined : { objectFit: "contain" }}
                   sizes="(max-width: 640px) 86vw, 78%"
                   priority={i < 2}
                 />
               </div>
               <h3 className="mt-5 font-display text-base md:text-lg font-semibold">{game.name}</h3>
-              <p className="text-xs md:text-sm text-white/45 mt-1">{game.range}</p>
+              <p className="text-xs md:text-sm text-white/45 mt-1">{game.range_label}</p>
               <Link
                 href={`/top-up/${game.slug}`}
                 className="mt-5 text-xs md:text-sm font-semibold text-gold-bright hover:text-white transition"

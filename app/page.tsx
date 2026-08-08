@@ -6,14 +6,17 @@ import { FAQSection } from "@/components/sections/FAQSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { Footer } from "@/components/sections/Footer";
 import { faqJsonLd } from "@/lib/json-ld";
+import { getActiveGames } from "@/lib/db";
 
-export default function Home() {
+export default async function Home() {
+  const games = await getActiveGames();
+
   return (
     <>
       <Header />
       <main className="flex-1">
-        <Hero />
-        <GamesSection />
+        <Hero games={games} />
+        <GamesSection games={games} />
         <HowItWorks />
         <FAQSection />
         <CTASection />
