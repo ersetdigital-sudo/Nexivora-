@@ -43,8 +43,7 @@ export default function AdminLoginPage() {
       }
 
       console.log("[LOGIN] Success, redirecting to /admin...");
-      router.push("/admin");
-      router.refresh();
+      window.location.href = "/admin";
     } catch (err: unknown) {
       console.log("[LOGIN] Catch error:", err);
       setError(err instanceof Error ? err.message : "Terjadi kesalahan. Coba lagi.");
