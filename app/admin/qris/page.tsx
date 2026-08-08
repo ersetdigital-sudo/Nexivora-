@@ -17,10 +17,12 @@ export default async function AdminQrisPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-semibold">Kelola QRIS</h1>
-      <p className="mt-1 text-sm text-white/40">Upload dan atur gambar QRIS untuk pembayaran</p>
+      <div className="mb-6">
+        <h1 className="font-display text-xl font-semibold text-white">Kelola QRIS</h1>
+        <p className="mt-1 text-sm text-white/35">Upload dan atur gambar QRIS untuk pembayaran</p>
+      </div>
 
-      <div className="mt-8 max-w-lg">
+      <div className="max-w-lg">
         <QrisManager currentUrl={currentUrl} />
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import type { Database } from "@/types/supabase";
 import Link from "next/link";
+import { ToastContainer } from "@/components/ui/Toast";
 
 type SettingsRow = Database["public"]["Tables"]["settings"]["Row"];
 
@@ -15,48 +16,100 @@ export default async function AdminDashboard() {
     .from("pricing")
     .select("*", { count: "exact", head: true });
 
+  const { count: activeGames } = await supabase
+    .from("games")
+    .select("*", { count: "exact", head: true })
+    .eq("is_active", true);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: qrisSetting } = await (supabase.from("settings") as any)
     .select("value")
     .eq("key", "qris_image_url")
     .single() as { data: SettingsRow | null };
 
+  const stats = [
+    {
+      label: "Game Aktif",
+      value: activeGames ?? 0,
+      sub: `dari ${gameCount ?? 0} total`,
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="2" y="6" width="20" height="12" rx="2" />
+          <path d="M12 12h.01M17 12h.01M7 12h.01" />
+        </svg>
+      ),
+    },
+    {
+      label: "Total Nominal",
+      value: pricingCount ?? 0,
+      sub: "harga tersedia",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+        </svg>
+      ),
+    },
+    {
+      label: "QRIS",
+      value: qrisSetting?.value ? "✓" : "—",
+      sub: qrisSetting?.value ? "terkonfigurasi" : "belum diatur",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+          <rect x="14" y="14" width="3" height="3" />
+          <path d="M21 14h-4v4" />
+        </svg>
+      ),
+    },
+  ];
+
   return (
     <div>
-      <h1 className="font-display text-2xl font-semibold">Dashboard</h1>
-      <p className="mt-1 text-sm text-white/40">Ringkasan data Toplixa</p>
-
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="hairline rounded-2xl p-5 bg-panel">
-          <p className="text-xs uppercase tracking-[.15em] text-white/40">Game Aktif</p>
-          <p className="mt-2 font-display text-3xl font-semibold gold-text">{gameCount ?? 0}</p>
-        </div>
-        <div className="hairline rounded-2xl p-5 bg-panel">
-          <p className="text-xs uppercase tracking-[.15em] text-white/40">Total Nominal</p>
-          <p className="mt-2 font-display text-3xl font-semibold gold-text">{pricingCount ?? 0}</p>
-        </div>
-        <div className="hairline rounded-2xl p-5 bg-panel">
-          <p className="text-xs uppercase tracking-[.15em] text-white/40">QRIS</p>
-          <p className="mt-2 font-display text-3xl font-semibold gold-text">
-            {qrisSetting?.value ? "✓" : "—"}
-          </p>
-        </div>
+      <div className="mb-6">
+        <h1 className="font-display text-xl font-semibold text-white">Dashboard</h1>
+        <p className="mt-1 text-sm text-white/35">Ringkasan data Toplixa</p>
       </div>
 
-      <div className="mt-8 flex gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {stats.map((stat) => (
+          <div key={stat.label} className="hairline rounded-2xl p-5 bg-panel">
+            <div className="flex items-center justify-between">
+              <p className="text-[11px] uppercase tracking-[.15em] text-white/35">{stat.label}</p>
+              <span className="text-white/20">{stat.icon}</span>
+            </div>
+            <p className="mt-3 font-display text-2xl font-semibold gold-text">{stat.value}</p>
+            <p className="mt-1 text-[11px] text-white/25">{stat.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8 flex flex-wrap gap-3">
         <Link
           href="/admin/games"
-          className="btn-gold font-semibold px-6 py-3 rounded-xl transition text-sm"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition"
+          style={{ backgroundColor: "#d4af6a", color: "#0a0a0b" }}
         >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
           Kelola Harga
         </Link>
         <Link
           href="/admin/qris"
-          className="hairline font-semibold px-6 py-3 rounded-xl transition text-sm text-white/80 hover:text-white"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] transition"
         >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
           Kelola QRIS
         </Link>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

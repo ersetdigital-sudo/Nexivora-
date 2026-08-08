@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { addPricing, updatePricing, deletePricing } from "../actions";
+import { addPricing, updatePricing, deletePricing, updateGameActive } from "../actions";
+import { ConfirmModal } from "@/components/ui/ConfirmModal";
+import { Toggle } from "@/components/ui/Toggle";
+import { showToast } from "@/components/ui/Toast";
 
 interface PricingItem {
   id: string;
@@ -14,165 +17,222 @@ interface GameCardProps {
     id: string;
     name: string;
     range_label: string;
+    is_active: boolean;
   };
   nominals: PricingItem[];
 }
 
 export function GamePricingCard({ game, nominals }: GameCardProps) {
   const [items, setItems] = useState(nominals);
+  const [isActive, setIsActive] = useState(game.is_active);
   const [newLabel, setNewLabel] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [editing, setEditing] = useState<string | null>(null);
   const [editLabel, setEditLabel] = useState("");
   const [editPrice, setEditPrice] = useState("");
-  const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const flash = (text: string) => {
-    setMsg(text);
-    setTimeout(() => setMsg(""), 3000);
-  };
+  const [deleteTarget, setDeleteTarget] = useState<PricingItem | null>(null);
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newLabel || !newPrice) return;
+    const label = newLabel.trim();
+    const price = parseInt(newPrice, 10);
+
+    if (!label) {
+      showToast("error", "Label nominal tidak boleh kosong.");
+      return;
+    }
+    if (!price || price <= 0) {
+      showToast("error", "Harga harus angka lebih dari 0.");
+      return;
+    }
+
     setLoading(true);
     try {
-      await addPricing(game.id, newLabel, parseInt(newPrice, 10));
-      setItems([...items, { id: "temp-" + Date.now(), nominal_label: newLabel, price: parseInt(newPrice, 10) }]);
+      await addPricing(game.id, label, price);
+      setItems([...items, { id: "temp-" + Date.now(), nominal_label: label, price }]);
       setNewLabel("");
       setNewPrice("");
-      flash("Berhasil ditambahkan");
+      showToast("success", "Nominal berhasil ditambahkan.");
     } catch (e: unknown) {
-      flash("Gagal: " + String(e));
+      showToast("error", "Gagal menambah nominal: " + String(e));
     }
     setLoading(false);
   };
 
   const handleUpdate = async (id: string) => {
+    const label = editLabel.trim();
+    const price = parseInt(editPrice, 10);
+
+    if (!label) {
+      showToast("error", "Label nominal tidak boleh kosong.");
+      return;
+    }
+    if (!price || price <= 0) {
+      showToast("error", "Harga harus angka lebih dari 0.");
+      return;
+    }
+
     setLoading(true);
     try {
-      await updatePricing(id, editLabel, parseInt(editPrice, 10));
-      setItems(items.map((i) => (i.id === id ? { ...i, nominal_label: editLabel, price: parseInt(editPrice, 10) } : i)));
+      await updatePricing(id, label, price);
+      setItems(items.map((i) => (i.id === id ? { ...i, nominal_label: label, price } : i)));
       setEditing(null);
-      flash("Berhasil diupdate");
+      showToast("success", "Harga berhasil disimpan.");
     } catch (e: unknown) {
-      flash("Gagal: " + String(e));
+      showToast("error", "Gagal update harga: " + String(e));
     }
     setLoading(false);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Hapus nominal ini?")) return;
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
     setLoading(true);
     try {
-      await deletePricing(id);
-      setItems(items.filter((i) => i.id !== id));
-      flash("Berhasil dihapus");
+      await deletePricing(deleteTarget.id);
+      setItems(items.filter((i) => i.id !== deleteTarget.id));
+      showToast("success", "Nominal dihapus.");
     } catch (e: unknown) {
-      flash("Gagal: " + String(e));
+      showToast("error", "Gagal menghapus: " + String(e));
     }
+    setDeleteTarget(null);
     setLoading(false);
+  };
+
+  const handleToggleActive = async (checked: boolean) => {
+    try {
+      await updateGameActive(game.id, checked);
+      setIsActive(checked);
+      showToast("success", checked ? "Game diaktifkan." : "Game dinonaktifkan.");
+    } catch (e: unknown) {
+      showToast("error", "Gagal update status: " + String(e));
+    }
   };
 
   return (
-    <div className="hairline rounded-2xl p-5 bg-panel">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h3 className="font-display text-lg font-semibold">{game.name}</h3>
-          <p className="text-xs text-white/40 mt-0.5">{game.range_label}</p>
-        </div>
-        {msg && (
-          <span className="text-xs text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full">
-            {msg}
-          </span>
-        )}
-      </div>
-
-      <div className="mt-4 space-y-1.5">
-        {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-2 text-sm">
-            {editing === item.id ? (
-              <>
-                <input
-                  value={editLabel}
-                  onChange={(e) => setEditLabel(e.target.value)}
-                  className="flex-1 bg-raise hairline rounded-lg px-3 py-2 text-sm outline-none focus:border-gold/60"
-                />
-                <input
-                  type="number"
-                  value={editPrice}
-                  onChange={(e) => setEditPrice(e.target.value)}
-                  className="w-28 bg-raise hairline rounded-lg px-3 py-2 text-sm outline-none focus:border-gold/60"
-                />
-                <button
-                  onClick={() => handleUpdate(item.id)}
-                  disabled={loading}
-                  className="text-xs text-emerald-400 hover:text-emerald-300 px-2 py-1"
-                >
-                  Simpan
-                </button>
-                <button
-                  onClick={() => setEditing(null)}
-                  className="text-xs text-white/40 hover:text-white/70 px-2 py-1"
-                >
-                  Batal
-                </button>
-              </>
-            ) : (
-              <>
-                <span className="flex-1 text-white/70">{item.nominal_label}</span>
-                <span className="text-white/50 font-mono text-xs">Rp {item.price.toLocaleString("id-ID")}</span>
-                <button
-                  onClick={() => {
-                    setEditing(item.id);
-                    setEditLabel(item.nominal_label);
-                    setEditPrice(String(item.price));
-                  }}
-                  className="text-xs text-gold-bright hover:text-white px-2 py-1"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="text-xs text-red-400/70 hover:text-red-400 px-2 py-1"
-                >
-                  Hapus
-                </button>
-              </>
-            )}
+    <>
+      <div className="hairline rounded-2xl bg-panel overflow-hidden">
+        {/* Card header */}
+        <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-white/[0.04]">
+          <div className="min-w-0">
+            <h3 className="font-display text-base font-semibold text-white truncate">{game.name}</h3>
+            <p className="text-[11px] text-white/30 mt-0.5">{game.range_label}</p>
           </div>
-        ))}
-        {items.length === 0 && (
-          <p className="text-xs text-white/30 py-2">Belum ada nominal</p>
-        )}
+          <Toggle
+            checked={isActive}
+            onChange={handleToggleActive}
+            label={isActive ? "Aktif" : "Nonaktif"}
+          />
+        </div>
+
+        {/* Nominal list */}
+        <div className="divide-y divide-white/[0.04]">
+          {items.length === 0 && (
+            <p className="text-xs text-white/25 py-6 text-center">Belum ada nominal</p>
+          )}
+          {items.map((item) => (
+            <div key={item.id} className="flex items-center gap-3 px-5 py-3">
+              {editing === item.id ? (
+                <>
+                  <input
+                    value={editLabel}
+                    onChange={(e) => setEditLabel(e.target.value)}
+                    className="flex-1 min-w-0 bg-raise border border-white/[0.06] rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-gold/40 transition"
+                  />
+                  <input
+                    type="number"
+                    value={editPrice}
+                    onChange={(e) => setEditPrice(e.target.value)}
+                    className="w-28 bg-raise border border-white/[0.06] rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-gold/40 transition"
+                  />
+                  <button
+                    onClick={() => handleUpdate(item.id)}
+                    disabled={loading}
+                    className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 transition disabled:opacity-50"
+                    title="Simpan"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  </button>
+                  <button
+                    onClick={() => setEditing(null)}
+                    disabled={loading}
+                    className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-white/[0.04] text-white/40 hover:text-white/70 hover:bg-white/[0.08] transition disabled:opacity-50"
+                    title="Batal"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span className="flex-1 min-w-0 text-sm text-white/70 truncate">{item.nominal_label}</span>
+                  <span className="shrink-0 text-sm text-white/50 font-mono tabular-nums">
+                    Rp {item.price.toLocaleString("id-ID")}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setEditing(item.id);
+                      setEditLabel(item.nominal_label);
+                      setEditPrice(String(item.price));
+                    }}
+                    disabled={loading}
+                    className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-white/[0.04] text-white/30 hover:text-gold hover:bg-gold/10 transition disabled:opacity-50"
+                    title="Edit"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                  </button>
+                  <button
+                    onClick={() => setDeleteTarget(item)}
+                    disabled={loading}
+                    className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-white/[0.04] text-white/30 hover:text-red-400 hover:bg-red-500/10 transition disabled:opacity-50"
+                    title="Hapus"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Add form */}
+        <form onSubmit={handleAdd} className="flex gap-2 p-4 border-t border-white/[0.04]">
+          <input
+            value={newLabel}
+            onChange={(e) => setNewLabel(e.target.value)}
+            placeholder="Label (misal: 60 UC)"
+            required
+            className="flex-1 min-w-0 bg-raise border border-white/[0.06] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-gold/40 transition"
+          />
+          <input
+            type="number"
+            value={newPrice}
+            onChange={(e) => setNewPrice(e.target.value)}
+            placeholder="Harga"
+            required
+            min="0"
+            className="w-28 bg-raise border border-white/[0.06] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-gold/40 transition"
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className="shrink-0 px-4 py-2.5 text-sm font-semibold rounded-lg transition disabled:opacity-50"
+            style={{ backgroundColor: "#d4af6a", color: "#0a0a0b" }}
+          >
+            {loading ? "…" : "Tambah"}
+          </button>
+        </form>
       </div>
 
-      <form onSubmit={handleAdd} className="mt-4 flex gap-2">
-        <input
-          value={newLabel}
-          onChange={(e) => setNewLabel(e.target.value)}
-          placeholder="Label (misal: 60 UC)"
-          required
-          className="flex-1 bg-raise hairline rounded-lg px-3 py-2 text-sm outline-none focus:border-gold/60"
-        />
-        <input
-          type="number"
-          value={newPrice}
-          onChange={(e) => setNewPrice(e.target.value)}
-          placeholder="Harga"
-          required
-          min="0"
-          className="w-28 bg-raise hairline rounded-lg px-3 py-2 text-sm outline-none focus:border-gold/60"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="btn-gold text-xs font-semibold px-4 py-2 rounded-lg transition disabled:opacity-50"
-        >
-          Tambah
-        </button>
-      </form>
-    </div>
+      <ConfirmModal
+        open={!!deleteTarget}
+        title="Hapus Nominal"
+        message={`Yakin mau hapus "${deleteTarget?.nominal_label}"? Tindakan ini gak bisa dibatalkan.`}
+        confirmLabel="Ya, Hapus"
+        danger
+        loading={loading}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
+    </>
   );
 }

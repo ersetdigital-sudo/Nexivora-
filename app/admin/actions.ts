@@ -109,6 +109,16 @@ export async function updateGameField(gameId: string, field: string, value: unkn
   await revalidateGame(gameId);
 }
 
+export async function updateGameActive(gameId: string, isActive: boolean) {
+  const supabase = await requireAdmin();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase.from("games") as any)
+    .update({ is_active: isActive })
+    .eq("id", gameId);
+  if (error) throw error.message;
+  await revalidateGame(gameId);
+}
+
 export async function updateQrisImage(url: string) {
   const supabase = await requireAdmin();
   const { error } = await (supabase.from("settings") as any)
