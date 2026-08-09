@@ -120,14 +120,26 @@ export async function updateGameActive(gameId: string, isActive: boolean) {
 }
 
 export async function updateQrisImage(url: string) {
-  const supabase = await requireAdmin();
-  const { error } = await (supabase.from("settings") as any)
-    .upsert({ key: "qris_image_url", value: url }, { onConflict: "key" });
-  if (error) return { error: error.message };
-  revalidatePath("/admin/qris");
-  revalidatePath("/admin");
-  revalidatePath("/");
-  return { error: null };
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: "Not authenticated" };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: admin } = await (supabase.from("admin_users") as any)
+      .select("id").eq("user_id", user.id).single();
+    if (!admin) return { error: "Not an admin" };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase.from("settings") as any)
+      .upsert({ key: "qris_image_url", value: url }, { onConflict: "key" });
+    if (error) return { error: error.message };
+    revalidatePath("/admin/qris");
+    revalidatePath("/admin");
+    revalidatePath("/");
+    return { error: null };
+  } catch (e) {
+    return { error: e instanceof Error ? e.message : String(e) };
+  }
 }
 
 export async function updateSocialMedia(data: { instagram: string; whatsapp: string; email: string }) {
