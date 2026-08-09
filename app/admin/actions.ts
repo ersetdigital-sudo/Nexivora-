@@ -123,10 +123,11 @@ export async function updateQrisImage(url: string) {
   const supabase = await requireAdmin();
   const { error } = await (supabase.from("settings") as any)
     .upsert({ key: "qris_image_url", value: url }, { onConflict: "key" });
-  if (error) throw error.message;
+  if (error) return { error: error.message };
   revalidatePath("/admin/qris");
   revalidatePath("/admin");
   revalidatePath("/");
+  return { error: null };
 }
 
 export async function updateSocialMedia(data: { instagram: string; whatsapp: string; email: string }) {

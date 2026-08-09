@@ -14,9 +14,9 @@ export function LogoMark({ className = "w-9 h-9", label, id = "nxvLogomark" }: L
           <stop offset="100%" stopColor="#6D45F5" />
         </linearGradient>
       </defs>
-      <path d="M24 2L44 13.5V34.5L24 46L4 34.5V13.5L24 2Z" stroke={`url(#${id})`} strokeWidth="2.4" fill="none" />
-      <path d="M14 16h20" stroke={`url(#${id})`} strokeWidth="3.4" strokeLinecap="round" />
-      <path d="M27 16L19 32h9L21 42" stroke={`url(#${id})`} strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M24 2L44 13.5V34.5L24 46L4 34.5V13.5L24 2Z" fill={`url(#${id})`} />
+      <path d="M13 16.5h22" stroke="rgba(255,255,255,0.9)" strokeWidth="3.8" strokeLinecap="round" />
+      <path d="M27 16.5L18.5 31.5h9.5L20 41.5" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="3.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

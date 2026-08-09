@@ -29,11 +29,15 @@ export function QrisManager({ currentUrl }: QrisManagerProps) {
 
     try {
       const result = await uploadToCloudinary(file);
-      await updateQrisImage(result.secure_url);
+      const res = await updateQrisImage(result.secure_url);
+      if (res.error) {
+        showToast("error", "Gagal simpan QRIS: " + res.error);
+        return;
+      }
       setPreview(result.secure_url);
       showToast("success", "QRIS berhasil diupdate.");
     } catch (e: unknown) {
-      showToast("error", "Gagal simpan QRIS: " + (e instanceof Error ? e.message : String(e)));
+      showToast("error", "Gagal upload: " + (e instanceof Error ? e.message : String(e)));
     } finally {
       uploadingRef.current = false;
       setUploading(false);
