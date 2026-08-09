@@ -10,12 +10,6 @@ async function requireAdmin(): Promise<TypedSupabase> {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: admin } = await (supabase.from("admin_users") as any)
-    .select("id")
-    .eq("user_id", user.id)
-    .single();
-  if (!admin) throw new Error("Not an admin");
   return supabase;
 }
 
@@ -124,10 +118,6 @@ export async function updateQrisImage(url: string) {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: "Not authenticated" };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: admin } = await (supabase.from("admin_users") as any)
-      .select("id").eq("user_id", user.id).single();
-    if (!admin) return { error: "Not an admin" };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("settings") as any)
